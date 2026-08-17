@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>명조 에코 랭크</title>
+    <style>
+        body {
+            margin:0;
+            padding:0;
+            box-sizing:border-box; /* 디자인하기 편한 도구 */
+        }
+        #root{
+            width: 100vw;
+            height: 100vh;            
+        }
+        #root > header{
+            width: 100vw;
+            height: 50px;
+            background-color: #222831;
+        }
+        #root > div > aside{
+            width: 200px;
+            height: calc(100vh - 50px);
+            background-color: #222831;
+        }
+        #root > div > main{
+            background-color: #1E2022;
+        }
+        .display-grid{
+            display: grid;
+        }
+        .display-flex{
+            display: flex;
+        }
+        .grid-col-auto-1fr{
+            grid-template-columns: auto 1fr;
+        }
+        .header-color{
+            background-color: #222831;
+        }
+        .width-100vw{
+            width: 100vw;
+        }
+        .height-20px{
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <header class="">
+            <div class="">
+                
+            </div>
+        </header>
+        <div class="display-grid grid-col-auto-1fr">
+            <aside>
+    
+            </aside>
+            <main class="display-flex">
+    
+            </main>
+        </div>
+        <footer>
+
+        </footer>
+    </div>
+</body>
+</html>

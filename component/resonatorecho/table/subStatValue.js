@@ -11,8 +11,6 @@ class SubStatValue extends HTMLElement{
     }
 
     set subStatValues(data){
-        if (!Array.isArray(data)) return;
-
         this.#subStatValues = data
         this.options = this.#subStatValues.map((subStatValue)=>`
             <li data-id=${subStatValue.id}>${subStatValue.value}</li>

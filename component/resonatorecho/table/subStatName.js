@@ -1,14 +1,33 @@
 class SubStatName extends HTMLElement{
-    connectedCallback(){
-        const optionNumber = 5;
-        const options = Array(optionNumber).fill(0).map(() => `
-            <li></li>
+    optionNumber = 5;
+    options = Array(optionNumber).fill(0).map(() => `
+    <li></li>
+    `).join('');
+
+    #subStatNames = []
+
+    get subStatValues(){
+        return this.#subStatNames;
+    }
+
+    set subStatValues(data){
+        this.#subStatNames = data
+        this.options = this.#subStatNames.map((subStatName)=>`
+            <li>${subStatName}</li>
         `).join('');
 
+        this.render()
+    }
+
+    connectedCallback(){
+        this.render()        
+    }
+
+    render(){
         this.innerHTML = `
-            <div class="subStatName">
+            <div class="subStatValue">
                 <ul>
-                    ${options}
+                    ${this.options}
                 </ul>
             </div>
         `

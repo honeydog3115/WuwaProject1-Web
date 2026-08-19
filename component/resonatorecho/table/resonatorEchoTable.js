@@ -1,13 +1,17 @@
 class ResonatorEchoTable extends HTMLElement{
+    rowNumber = 5;
+    substatRows = Array(rowNumber).fill(0).map(() => `
+        <tr>
+            <td><substat-name></substat-name></td>
+            <td><substat-value></substat-value></td>
+        </tr>
+    `).join('');
+    
     connectedCallback(){
-        const rowNumber = 5;
-        const substatRows = Array(rowNumber).fill(0).map(() => `
-            <tr>
-                <td><substat-name></substat-name></td>
-                <td><substat-value></substat-value></td>
-            </tr>
-        `).join('');
+        this.render()
+    }
 
+    render() {
         this.innerHTML = `
             <div>
                 <table>

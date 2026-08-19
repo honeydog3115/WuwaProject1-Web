@@ -1,3 +1,5 @@
+import './stattable/ResonatorEchoTable.js';
+
 class ResonatorEchoCreate extends HTMLElement{
     connectedCallback(){
         this.render()

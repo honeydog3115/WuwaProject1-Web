@@ -1,3 +1,9 @@
+import "./MainStatName.js"
+import "./MainStatValue.js"
+import "./ResonatorEchoChoice.js"
+import "./SubStatName.js"
+import "./SubStatValue.js"
+
 class ResonatorEchoTable extends HTMLElement{
     rowNumber = 5;
     substatRows = Array(rowNumber).fill(0).map(() => `

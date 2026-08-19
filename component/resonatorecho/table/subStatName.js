@@ -6,11 +6,11 @@ class SubStatName extends HTMLElement{
 
     #subStatNames = []
 
-    get subStatValues(){
+    get subStatNames(){
         return this.#subStatNames;
     }
 
-    set subStatValues(data){
+    set subStatNames(data){
         this.#subStatNames = data
         this.options = this.#subStatNames.map((subStatName)=>`
             <li>${subStatName}</li>

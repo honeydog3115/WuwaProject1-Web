@@ -15,4 +15,4 @@ class CreateResonatorEcho extends HTMLElement{
     }
 }
 
-customElements.define("create-resonatorecho", CreateResonatorEcho)
+customElements.define("resonatorecho-create", CreateResonatorEcho)

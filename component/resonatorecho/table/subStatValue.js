@@ -1,9 +1,4 @@
 class SubStatValue extends HTMLElement{
-    optionNumber = 5;
-    options = Array(optionNumber).fill(0).map(() => `
-    <li></li>
-    `).join('');
-
     #subStatValues = []
 
     get subStatValues(){
@@ -12,10 +7,6 @@ class SubStatValue extends HTMLElement{
 
     set subStatValues(data){
         this.#subStatValues = data
-        this.options = this.#subStatValues.map((subStatValue)=>`
-            <li data-id=${subStatValue.id}>${subStatValue.value}</li>
-        `).join('');
-
         this.render()
     }
 
@@ -24,10 +15,16 @@ class SubStatValue extends HTMLElement{
     }
 
     render(){
+        const options = this.#subStatValues.length > 0
+            ? this.#subStatValues.map((subStatValue)=>`
+                <li data-id=${subStatValue.id}>${subStatValue.value}</li>
+            `).join('')
+            : `<li></li>`
+        
         this.innerHTML = `
             <div class="subStatValue">
                 <ul>
-                    ${this.options}
+                    ${options}
                 </ul>
             </div>
         `

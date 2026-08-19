@@ -1,5 +1,5 @@
 class ChanceGauge extends HTMLElement{
-    #column = 5;
+    #column = 0;
 
     get column(){
         return this.#column
@@ -7,7 +7,6 @@ class ChanceGauge extends HTMLElement{
 
     set column(data){
         this.#column = data
-
         this.render()
     }
 
@@ -16,13 +15,15 @@ class ChanceGauge extends HTMLElement{
     }
 
     render(){
-        const gauge = Array.from({length: this.#column}).map((_, index)=>`
-            <div data-id=${index}></div>
-        `).join('')
+        const gauge = this.#column > 0 
+            ? Array.from({length: this.#column}, (_, index)=>`
+                <div data-id=${index}></div>
+            `).join('')
+            : `<div></div>`
 
         this.innerHTML = `
             <div>
-                ${this.gauge}
+                ${gauge}
             </div>
         `
     }

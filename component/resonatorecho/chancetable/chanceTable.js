@@ -1,3 +1,6 @@
+import "./ChanceGauge.js"
+import "./ChanceValue.js"
+
 class ChanceTable extends HTMLElement{
     #rowNumber = 5
 

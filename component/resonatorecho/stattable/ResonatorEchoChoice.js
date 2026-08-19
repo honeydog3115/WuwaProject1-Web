@@ -1,4 +1,4 @@
-class ChoiceResonatorEcho extends HTMLElement{
+class ResonatorEchoChoice extends HTMLElement{
     connectedCallback(){
         this.innerHTML = `
             <div class="choiceResonatorEcho">
@@ -7,4 +7,4 @@ class ChoiceResonatorEcho extends HTMLElement{
     }
 }
 
-customElements.define("choice-resonatorecho", ChoiceResonatorEcho)
+customElements.define("resonatorecho-choice", ChoiceResonatorEcho)

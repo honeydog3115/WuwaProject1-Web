@@ -1,4 +1,4 @@
-class CreateResonatorEcho extends HTMLElement{
+class ResonatorEchoCreate extends HTMLElement{
     connectedCallback(){
         this.render()
     }

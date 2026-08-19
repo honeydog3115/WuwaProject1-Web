@@ -1,9 +1,4 @@
 class MainStatValue extends HTMLElement{
-    optionNumber = 5;
-    options = Array(optionNumber).fill(0).map(() => `
-        <li></li>
-    `).join('');
-
     #mainStatValues = []
 
     get mainStatValues(){
@@ -12,9 +7,6 @@ class MainStatValue extends HTMLElement{
 
     set mainStatValues(data){
         this.#mainStatValues = data
-        this.options = this.#mainStatValues.map((mainStatValue)=>`
-            <li data-id=${mainStatValue.id}>${mainStatValue.value}</li>
-        `).join('')
     }
 
     connectedCallback(){
@@ -22,6 +14,12 @@ class MainStatValue extends HTMLElement{
     }
     
     render(){
+        const options = this.#mainStatValues.length > 0
+            ? this.#mainStatValues.map((mainStatValue)=>`
+                <li data-id=${mainStatValue.id}>${mainStatValue.value}</li>
+            `).join('')
+            : `<li></li>`
+
         this.innerHTML = `
             <div class="mainStatValue">
                 <ul>

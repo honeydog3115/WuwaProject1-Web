@@ -1,9 +1,4 @@
 class MainStatName extends HTMLElement{
-    optionNumber = 5;
-    options = Array(optionNumber).fill(0).map(() => `
-    <li></li>
-    `).join('');
-
     #mainStatNames = []
 
     get mainStatNames(){
@@ -12,10 +7,6 @@ class MainStatName extends HTMLElement{
 
     set mainStatNames(data){
         this.#mainStatNames = data
-        this.options = this.#mainStatNames.map((mainStatName)=>`
-            <li>${mainStatName}</li>
-        `).join('');
-
         this.render()
     }
 
@@ -24,10 +15,16 @@ class MainStatName extends HTMLElement{
     }
 
     render(){
+        const options = this.#mainStatNames.length > 0
+            ? this.#mainStatNames.map((mainStatName)=>`
+                <li>${mainStatName}</li>
+            `).join('')
+            : `<li></li>`
+
         this.innerHTML = `
             <div class="subStatValue">
                 <ul>
-                    ${this.options}
+                    ${options}
                 </ul>
             </div>
         `

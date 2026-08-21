@@ -67,8 +67,8 @@ class ResonatorChoice extends HTMLAnchorElement {
             const cardList = parent.children()
             this.#resonators.map((resonator, index)=>{
                 cardList[index].resonator = resonator
-                cardList[index].attribute = this.#attributes.filter(attribute=> attribute.id === resonator.attributeId) 
-                cardList[index].weapon = this.#weapons.filter(weapon=> weapon.id === resonator.weaponId) 
+                cardList[index].attribute = this.#attributes.find(attribute=> attribute.id === resonator.attributeId) 
+                cardList[index].weapon = this.#weapons.find(weapon=> weapon.id === resonator.weaponId) 
             })
         }
     }

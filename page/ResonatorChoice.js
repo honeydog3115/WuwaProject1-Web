@@ -73,3 +73,4 @@ class ResonatorChoice extends HTMLAnchorElement {
         }
     }
 }
+customElements.define("resonator-choice", ResonatorChoice)

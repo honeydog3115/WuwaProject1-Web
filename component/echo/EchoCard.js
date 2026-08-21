@@ -21,7 +21,7 @@ class EchoCard extends HTMLElement{
         this.innerHTML = `
             <div class="echo-${id}">
                 <div>
-                    <img src="${imagePath}">
+                    <img src="${imagePath}" alt="${name}의 이미지를 찾지 못했습니다.">
                 </div>
                 <div>
                     <span>${name}</span>
@@ -30,3 +30,4 @@ class EchoCard extends HTMLElement{
         `
     }
 }
+customElements.define("echo-card", EchoCard)

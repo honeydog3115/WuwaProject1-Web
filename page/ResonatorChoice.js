@@ -2,31 +2,56 @@ import "../component/resonator/choice/ResonatorCard.js"
 import "../component/resonator/choice/ResonatorFilterBtn.js"
 import "../component/SearchComponent.js"
 
-class ResonatorChoice extends HTMLAnchorElement{
-    #starNumber = 0
-    #attributeNumber = 0
-    #weaponNumber = 0
-    #resonatorNumber = 0
+class ResonatorChoice extends HTMLAnchorElement {
+    #starNumber = 2
+    #resonators = []
+    #attributes = []
+    #weapons = []
 
-    render(){
-        const starFilter = Array(starNumber).fill(0).map(()=>`
+    set searchInfo({ resonators: resonators, attributes: attributes, weapons: weapons }) {
+        this.#resonators = resonators || []
+        this.#attributes = attributes || []
+        this.#weapons = weapons || []
+        this.render()
+    }
+
+    setFilterInfo(filterInfos, targetParentClass){
+        if(filterInfos.length > 0){
+            const parent = this.querySelector("."+targetParentClass)
+            const filters = parent.children()
+            filterInfos.map((info, index)=>{
+                filters[index].filterInfo = info
+            })
+        }
+    }    
+
+    connectedCallback() {
+        this.render()
+    }
+
+    render() {
+        const starFilter = Array(this.#starNumber + 1).fill(0).map(() => `
             <resonator-filter-btn></resonator-filter-btn>
         `).join('')
-        const attributeFileter = Array(attributeNumber).fill(0).map(()=>`
-            <resonator-filter-btn></resonator-filter-btn>
-        `).join('')
-        const weaponFilter = Array(weaponNumber).fill(0).map(()=>`
-            <resonator-filter-btn></resonator-filter-btn>
-        `).join('')
-        const cardList = Array(resonatorNumber).fill(0).map(()=>`
-            <resonator-card></resonator-card>
-        `).join('')
-        this.innerHTML=`
+        const attributeFilter = this.#attributes.length !== 0
+            ? this.#attributes.map((attribute) => `
+                <resonator-filter-btn data-id="${attribute.id}"></resonator-filter-btn>
+            `).join('') : ""
+        const weaponFilter = this.#weapons.length !== 0
+            ? this.#weapons.map((weapon) => `
+                <resonator-filter-btn data-id="${weapon.id}"></resonator-filter-btn>
+            `).join('') : ""
+        const cardList = this.#resonators.length !== 0 
+            ? this.#resonators.map((resonator) => `
+                <resonator-card></resonator-card>
+            `).join('') : ""
+
+        this.innerHTML = `
             <div>
                 <div class="search-bar">
                     <search-component></search-component>
                     <div class="star-filter">${starFilter}</div>
-                    <div class="attribute-filter">${attributeFileter}</div>
+                    <div class="attribute-filter">${attributeFilter}</div>
                     <div class="weapon-filter">${weaponFilter}</div>
                 </div>
                 <div class="card-list">
@@ -34,5 +59,17 @@ class ResonatorChoice extends HTMLAnchorElement{
                 </div>
             </div>
         `
+
+        this.setFilterInfo(this.#attributes, "attribute-filter")
+        this.setFilterInfo(this.#weapons, "weapon-filter")
+        if(this.#resonators.length > 0){
+            const parent = this.querySelector(".card-list")
+            const cardList = parent.children()
+            this.#resonators.map((resonator, index)=>{
+                cardList[index].resonator = resonator
+                cardList[index].attribute = this.#attributes.filter(attribute=> attribute.id === resonator.attributeId) 
+                cardList[index].weapon = this.#weapons.filter(weapon=> weapon.id === resonator.weaponId) 
+            })
+        }
     }
 }

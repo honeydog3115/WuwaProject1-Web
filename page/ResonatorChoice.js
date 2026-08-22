@@ -1,5 +1,5 @@
-import "../component/resonator/choice/ResonatorCard.js"
 import "../component/FilterItemBtn.js"
+import "../component/resonator/choice/ResonatorCard.js"
 import "../component/SearchComponent.js"
 
 class ResonatorChoice extends HTMLAnchorElement {
@@ -47,7 +47,7 @@ class ResonatorChoice extends HTMLAnchorElement {
             `).join('') : ""
 
         this.innerHTML = `
-            <div>
+            <dialog>
                 <div class="search-bar">
                     <search-component></search-component>
                     <div class="star-filter">${starFilter}</div>
@@ -57,7 +57,7 @@ class ResonatorChoice extends HTMLAnchorElement {
                 <div class="card-list">
                     ${cardList}
                 </div>
-            </div>
+            </dialog>
         `
 
         this.setFilterInfo(this.#attributes, "attribute-filter")

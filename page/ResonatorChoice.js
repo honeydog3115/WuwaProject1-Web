@@ -1,5 +1,5 @@
 import "../component/resonator/choice/ResonatorCard.js"
-import "../component/resonator/choice/FilterItemBtn.js"
+import "../component/FilterItemBtn.js"
 import "../component/SearchComponent.js"
 
 class ResonatorChoice extends HTMLAnchorElement {
@@ -31,15 +31,15 @@ class ResonatorChoice extends HTMLAnchorElement {
 
     render() {
         const starFilter = Array(this.#starNumber + 1).fill(0).map(() => `
-            <resonator-filter-btn></resonator-filter-btn>
+            <filter-item-btn></filter-item-btn>
         `).join('')
         const attributeFilter = this.#attributes.length !== 0
             ? this.#attributes.map((attribute) => `
-                <resonator-filter-btn data-id="${attribute.id}"></resonator-filter-btn>
+                <filter-item-btn data-id="${attribute.id}"></filter-item-btn>
             `).join('') : ""
         const weaponFilter = this.#weapons.length !== 0
             ? this.#weapons.map((weapon) => `
-                <resonator-filter-btn data-id="${weapon.id}"></resonator-filter-btn>
+                <filter-item-btn data-id="${weapon.id}"></filter-item-btn>
             `).join('') : ""
         const cardList = this.#resonators.length !== 0 
             ? this.#resonators.map((resonator) => `

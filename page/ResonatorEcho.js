@@ -14,7 +14,7 @@ class ResonatorEcho extends HTMLElement{
         const resonatorEcho = Array(5).fill(0).map(()=>`
             <resonatorecho-create></resonatorecho-create>
             <chance-table></chance-table>
-        `)
+        `).join("")
 
         this.innerHTML = `
             <div>
@@ -30,4 +30,4 @@ class ResonatorEcho extends HTMLElement{
     }
 }
 
-customElements.define("resonatorecho", ResonatorEcho)
+customElements.define("resonator-echo", ResonatorEcho)

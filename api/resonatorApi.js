@@ -1,3 +1,3 @@
-import { httpClient } from "./apiClient";
+import { httpClient } from "./apiClient.js";
 
-export const getResonators = async ()=>{return await httpClient.get("/resonator")}
+export const getResonators = async ()=>{return await httpClient.get("/resonator/1")}

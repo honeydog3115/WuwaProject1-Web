@@ -7,4 +7,4 @@ class ResonatorEchoChoice extends HTMLElement{
     }
 }
 
-customElements.define("resonatorecho-choice", ChoiceResonatorEcho)
+customElements.define("resonatorecho-choice", ResonatorEchoChoice)

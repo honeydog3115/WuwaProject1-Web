@@ -11,7 +11,7 @@ class PresetBtn extends HTMLElement{
     set preset({id: id, name: name}){
         this.#preset.id = id ? id : 0 
         this.#preset.name = name ? name : ""
-        this.render
+        this.render()
     }
 
     connectedCallBack(){

@@ -1,5 +1,5 @@
 import "../component/resonator/choice/ResonatorCard.js"
-import "../component/resonator/choice/ResonatorFilterBtn.js"
+import "../component/resonator/choice/FilterItemBtn.js"
 import "../component/SearchComponent.js"
 
 class ResonatorChoice extends HTMLAnchorElement {

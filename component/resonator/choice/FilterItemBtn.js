@@ -1,4 +1,4 @@
-class ResonatorFilterBtn extends HTMLElement{
+class FilterItemBtn extends HTMLElement{
     // static get observedAttributes(){
     //     return ['data-target']
     // }
@@ -40,4 +40,4 @@ class ResonatorFilterBtn extends HTMLElement{
     }
 }
 
-customElements.define("resonator-filter-btn", ResonatorFilterBtn)
+customElements.define("filter-item-btn", FilterItemBtn)

@@ -5,8 +5,13 @@ import '../component/resonatorecho/ResonatorEchoCreate.js';
 import '../component/resonatorecho/ResonatorEchoScore.js';
 import "../component/resonatorecho/chancetable/ChanceTable.js";
 
+import { getResonators } from '../api/resonatorApi.js';
+
 class ResonatorEcho extends HTMLElement{
-    connectedCallback(){
+    async connectedCallback(){
+        console.log("진입")
+        const data = await getResonators()
+        console.log("data", data)
         this.render()
     }
 

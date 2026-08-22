@@ -30,10 +30,15 @@ class FilterItemBtn extends HTMLElement{
 
     render(){
         const imagePath = this.#filterInfo.imagePath
+        const name = this.#filterInfo.name
+        const filterContent = imagePath 
+        ? `<img src="${filterContent}" alt="필터 이미지를 불러오는데 실패했습니다.">`
+        :`<span>${name}</span>`
+        
         this.innerHTML = `
             <div>
                 <button>
-                    <img src="${imagePath}" alt="필터 이미지를 불러오는데 실패했습니다.">
+                    ${filterContent}
                 </button>
             </div>
         `

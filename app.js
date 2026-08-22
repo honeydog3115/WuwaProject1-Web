@@ -13,4 +13,4 @@ function router(){
 }
 
 window.addEventListener("hashchange", router)
-window.addEventListener("DOMContentLoaded", router)
+document.addEventListener("DOMContentLoaded", router)

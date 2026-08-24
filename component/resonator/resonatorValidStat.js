@@ -15,11 +15,12 @@ class ResonatorValidStat extends HTMLElement{
     }
 
     render(){
-        const rowContent = this.#validStats.map((validStat)=>`
+        const rowContent = this.#validStats.length !== 0
+        ? this.#validStats.map((validStat)=>`
             <tr>
                 <td><p>${validStat.name}</p></td>
             </tr>
-        `).join('')
+        `).join('') : ""
 
         this.innerHTML = `
             <div>

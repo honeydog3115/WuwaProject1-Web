@@ -6,25 +6,21 @@ class ResonatorValidStat extends HTMLElement{
     }
 
     set validStats(data){
-        this.#validStats = data
+        this.#validStats = data || []
         this.render()
     }
 
     connectedCallback(){
-        this.render()
-    }
-
-    render(){
         const rowContent = Array(6).fill(0).map((_, index)=>`
             <tr>
                 <td>
-                    <p>${this.#validStats[index]?.name ?? "부음 속성"}</p>
+                    <p class="validStat-${index}">부음속성</p>
                 </td>
             </tr>
         `).join("")
-
+    
         this.innerHTML = `
-            <div>
+            <div class="validStat-table">
                 <table>
                     <tr>
                         <th>
@@ -35,6 +31,14 @@ class ResonatorValidStat extends HTMLElement{
                 </table>
             </div>
         `
+    }
+
+    render(){
+        if(this.#validStats.length > 0){
+            Array.from(this.querySelectorAll("p")).map((tag, index)=>{
+                tag.textContent = this.#validStats[index] ?? ""
+            })
+        }
     }
 }
 

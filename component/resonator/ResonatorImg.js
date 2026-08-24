@@ -1,4 +1,5 @@
 class ResonatorImg extends HTMLElement{
+    #DEFAULT_IMAGE = "image/character/unknown.webp"
     connectedCallback(){
         this.render()
     }
@@ -6,7 +7,7 @@ class ResonatorImg extends HTMLElement{
     render() {
         this.innerHTML = `
             <div>
-                <img src="" alt="선택한 공명자 이미지를 불러오는데 실패했습니다.">
+                <img src="${this.#DEFAULT_IMAGE}" alt="선택한 공명자 이미지를 불러오는데 실패했습니다.">
             </div>
         `
     }

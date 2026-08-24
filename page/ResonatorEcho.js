@@ -9,9 +9,7 @@ import { getResonators } from '../api/resonatorApi.js';
 
 class ResonatorEcho extends HTMLElement{
     async connectedCallback(){
-        console.log("진입")
         const data = await getResonators()
-        console.log("data", data)
         this.render()
     }
 

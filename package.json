@@ -1,0 +1,27 @@
+{
+  "name": "wuwa-echorank-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/honeydog3115/WuwaProject1-Web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/honeydog3115/WuwaProject1-Web/issues"
+  },
+  "homepage": "https://github.com/honeydog3115/WuwaProject1-Web#readme",
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

@@ -1,19 +1,35 @@
-class ResonatorImg extends HTMLElement{
-    #IMG_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
+import { html, render } from 'lit';
 
-    #DEFAULT_CHARACTER_IMG = "character/unknown.webp"
-    #CHARACTER_IMG_PATH = this.#IMG_BASE_URL + this.#DEFAULT_CHARACTER_IMG
+class ResonatorImg extends HTMLElement{
+    #imgBaseUrl = import.meta.env.VITE_IMAGE_BASE_URL;
+
+    #property = {
+        attributeImg : import.meta.env.VITE_DEFAULT_ATTRIBUTE_IMG,
+        resonatorImg : import.meta.env.VITE_DEFAULT_RESONATOR_IMG,
+        resonatorName : "공명자"
+    };
+
+    set property(data){
+        this.#property = {...this.#property, ...data}
+        this.render()
+    }
 
     connectedCallback(){
         this.render()
     }
 
     render() {
-        this.innerHTML = `
+        const {attributeImg, resonatorImg, resonatorName} = this.#property
+        const imgBaseUrl = this.#imgBaseUrl
+
+        const template = html`
             <div>
-                <img src="${this.#CHARACTER_IMG_PATH}" alt="선택한 공명자 이미지를 불러오는데 실패했습니다.">
+                <img class="attribute" src="${imgBaseUrl}${attributeImg}" alt="속성 이미지를 불러오는데 실패했습니다.">
+                <img class="resonator" src="${imgBaseUrl}${resonatorImg}" alt="선택한 공명자 이미지를 불러오는데 실패했습니다.">
+                <span>${resonatorName}</span>
             </div>
         `
+        render(template, this)
     }
 }
 

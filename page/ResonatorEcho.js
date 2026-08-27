@@ -46,11 +46,17 @@ class ResonatorEcho extends HTMLElement{
     }
 
     render(){
+        const validStatTable = this.querySelector("resonator-validstat")
+        const resonatorImg = this.querySelector("resonator-img")
         if(Object.keys(this.#resonatorDetail).length > 0){
-            console.log(this.#resonatorDetail?.validStats)
-            const validStatTable = this.querySelector("resonator-validstat")
-            console.log(validStatTable)
+            console.log(this.#resonatorDetail)
             validStatTable.validStats = this.#resonatorDetail?.validStats
+            const resonatorImgProp = {
+                attributeImg : this.#resonatorDetail.attribute.imagePath,
+                resonatorImg : this.#resonatorDetail.imagePath,
+                resonatorName : this.#resonatorDetail.name
+            }
+            resonatorImg.property = resonatorImgProp
         }
     }
 }

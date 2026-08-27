@@ -5,8 +5,8 @@ import "./SubStatName.js"
 import "./SubStatValue.js"
 
 class ResonatorEchoTable extends HTMLElement{
-    rowNumber = 5;
-    substatRows = Array(rowNumber).fill(0).map(() => `
+    #ROW_NUM = 5;
+    substatRows = Array(this.#ROW_NUM).fill(0).map(() => `
         <tr>
             <td><substat-name></substat-name></td>
             <td><substat-value></substat-value></td>

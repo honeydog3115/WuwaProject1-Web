@@ -1,17 +1,17 @@
 class SubStatName extends HTMLElement{
     #subStatNames = []
-
+    
     get subStatNames(){
         return this.#subStatNames;
     }
-
+    
     set subStatNames(data){
         this.#subStatNames = data
         this.render()
     }
-
+    
     connectedCallback(){
-        this.render()        
+        this.render()
     }
 
     render(){

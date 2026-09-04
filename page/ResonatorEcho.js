@@ -6,14 +6,22 @@ import '../component/resonatorecho/ResonatorEchoScore.js';
 import "../component/resonatorecho/chancetable/ChanceTable.js";
 
 import { getResonatorDetail } from '../api/resonatorApi.js';
+import { getSubStatInfos } from '../api/subStatApi.js';
+import { subStatInfosContext } from '../context/resonatorEchoContext.js';
 
 class ResonatorEcho extends HTMLElement{
     #resonatorId = 0
     #resonatorDetail = {}
+    #subStatInfos = []
+    #subscribers = new Set();
 
     set resonatorId(data){
-        this.#resonatorId = data ?? 0
-        this.requestResonatorDetail(this.#resonatorId)
+        if(this.#resonatorId !== data){
+            this.#resonatorId = data ?? 0
+            this.#resonatorDetail = getResonatorDetail(this.#resonatorId)
+        }
+        else
+            return
     }
 
     set resonatorDetail(data){
@@ -21,11 +29,13 @@ class ResonatorEcho extends HTMLElement{
         this.render()
     }
 
-    async requestResonatorDetail(id){
-        this.resonatorDetail = await getResonatorDetail(1)
-    }
+    // async requestResonatorDetail(id){
+    //     this.resonatorDetail = await getResonatorDetail(1)
+    // }
     
     connectedCallback(){
+        this.addEventListener('context-request', this.#handleContextRequest)
+
         const resonatorEcho = Array(5).fill(0).map(()=>`
             <resonatorecho-create></resonatorecho-create>
             <chance-table></chance-table>
@@ -43,6 +53,29 @@ class ResonatorEcho extends HTMLElement{
             </div>
         `
         this.resonatorId = 1
+    }
+
+    disconnectedCallback(){
+        this.removeEventListener('context-request', this.#handleContextRequest)
+        this.#subscribers.clear()
+    }
+
+    #handleContextRequest = async (event) => {
+        if(event.detail.context === subStatInfosContext){
+            event.stopPropagation()
+
+            const { callback, subscribe } = event.detail
+            const unsubscribe = () => { this.#subscribers.delete(callback) } 
+
+            if(subscribe || this.#subStatInfos.length == 0){
+                this.#subscribers.add(callback)
+            }
+
+            const data = await getSubStatInfos()
+            this.#subStatInfos = data
+
+            callback(this.#subStatInfos, unsubscribe)
+        }
     }
 
     render(){

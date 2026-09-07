@@ -31,4 +31,4 @@ class SubStatValue extends HTMLElement{
     }
 }
 
-customElements.define("substatt-value", SubStatValue)
+customElements.define("substat-value", SubStatValue)

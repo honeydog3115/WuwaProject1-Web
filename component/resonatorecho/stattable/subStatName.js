@@ -22,7 +22,7 @@ class SubStatName extends HTMLElement{
             : `<li></li>`
 
         this.innerHTML = `
-            <div class="subStatValue">
+            <div class="subStatName">
                 <ul>
                     ${options}
                 </ul>

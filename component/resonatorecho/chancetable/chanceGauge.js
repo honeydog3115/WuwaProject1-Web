@@ -1,5 +1,6 @@
 class ChanceGauge extends HTMLElement{
     #column = 0;
+    #index = -1;
 
     get column(){
         return this.#column
@@ -10,8 +11,17 @@ class ChanceGauge extends HTMLElement{
         this.render()
     }
 
+    get index(){
+        return this.#index
+    }
+
+    set index(data){
+        this.#index = data
+        this.render()
+    }
+
     connectedCallback() {
-        this.render();
+        this.render()
     }
 
     render(){
@@ -26,6 +36,10 @@ class ChanceGauge extends HTMLElement{
                 ${gauge}
             </div>
         `
+        const targetDiv = this.querySelector(`[data-id="${this.#index}"]`)
+        if (targetDiv){
+            console.log(targetDiv)
+        }
     }
 }
 

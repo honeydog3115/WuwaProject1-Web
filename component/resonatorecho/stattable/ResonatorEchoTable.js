@@ -23,28 +23,28 @@ class ResonatorEchoTable extends HTMLElement{
         this.addEventListener('click', this.#subStatNameClickEvent)
         this.addEventListener('click', this.#subStatValueClickEvent)
         this.dispatchEvent(new CustomEvent('context-request', {
-                detail: {
-                    context: subStatInfosContext,
-                    subscribe: true,
-                    callback: (subStatInfos, unsubscribe)=>{
-                        this.#unsubscribe = unsubscribe
-                        this.#subStatInfos = subStatInfos
-                        console.log(subStatInfos)
+            detail: {
+                context: subStatInfosContext,
+                subscribe: true,
+                callback: (subStatInfos, unsubscribe)=>{
+                    this.#unsubscribe = unsubscribe
+                    this.#subStatInfos = subStatInfos
+                    console.log(subStatInfos)
 
-                        const subStatNames = subStatInfos.map((subStatInfo)=>{
-                            const {id, name: value} = subStatInfo
-                            return {id, value}
-                        })
-                        
-                        const substat_names = this.querySelectorAll('substat-name')
-                        substat_names.forEach((substat_name)=>{
-                            substat_name.subStatNames = subStatNames
-                        })
-                    }
-                },
-                bubbles: true,
-                composed: true
-            })
+                    const subStatNames = subStatInfos.map((subStatInfo)=>{
+                        const {id, name: value} = subStatInfo
+                        return {id, value}
+                    })
+                    
+                    const substat_names = this.querySelectorAll('substat-name')
+                    substat_names.forEach((substat_name)=>{
+                        substat_name.subStatNames = subStatNames
+                    })
+                }
+            },
+            bubbles: true,
+            composed: true
+        })
         )
     }
 
@@ -74,6 +74,16 @@ class ResonatorEchoTable extends HTMLElement{
             const subStatInfos = this.#subStatInfos.find(subStatInfo => subStatInfo.subStatInfos.some(subStatInfo => subStatInfo.id === Number(subStatValueId))).subStatInfos
             const data = {...subStatInfos[index], index: index, length: subStatInfos.length}
             console.log(data)
+            const parentComponent = this.closest("resonatorecho-create")
+            const chanceTable = parentComponent.nextElementSibling;
+            
+            const chanceValue = chanceTable.querySelector("chance-value")
+            console.log(chanceValue)
+            const chanceGauge = chanceTable.querySelector("chance-gauge")
+            console.log(chanceGauge)
+            chanceValue.value = {...subStatInfos[index]}
+            chanceGauge.column = subStatInfos.length
+            chanceGauge.index = index
         }
     }
 

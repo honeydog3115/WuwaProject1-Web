@@ -17,7 +17,7 @@ class ChanceValue extends HTMLElement{
     render() {
         this.innerHTML = `
             <div>
-                <p>${this.#value}</p>
+                <p>${this.#value.chance}</p>
             </div>
         `
     }

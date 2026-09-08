@@ -18,7 +18,7 @@ class ResonatorEcho extends HTMLElement{
     set resonatorId(data){
         if(this.#resonatorId !== data){
             this.#resonatorId = data ?? 0
-            this.#resonatorDetail = getResonatorDetail(this.#resonatorId)
+            this.dispatchEvent(new CustomEvent('resonatorDetail-request', {}))
         }
         else
             return
@@ -29,12 +29,9 @@ class ResonatorEcho extends HTMLElement{
         this.render()
     }
 
-    // async requestResonatorDetail(id){
-    //     this.resonatorDetail = await getResonatorDetail(1)
-    // }
-    
     connectedCallback(){
         this.addEventListener('context-request', this.#handleContextRequest)
+        this.addEventListener('resonatorDetail-request',this.#requestResonatorDetail)
 
         const resonatorEcho = Array(5).fill(0).map(()=>`
             <resonatorecho-create></resonatorecho-create>
@@ -76,6 +73,10 @@ class ResonatorEcho extends HTMLElement{
 
             callback(this.#subStatInfos, unsubscribe)
         }
+    }
+
+    #requestResonatorDetail = async (event) => {
+        this.resonatorDetail = await getResonatorDetail(this.#resonatorId)
     }
 
     render(){

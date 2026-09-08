@@ -14,6 +14,7 @@ class ResonatorEcho extends HTMLElement{
     #resonatorDetail = {}
     #subStatInfos = []
     #subscribers = new Set();
+    #btnEvent = null
 
     set resonatorId(data){
         if(this.#resonatorId !== data){
@@ -32,6 +33,17 @@ class ResonatorEcho extends HTMLElement{
     connectedCallback(){
         this.addEventListener('context-request', this.#handleContextRequest)
         this.addEventListener('resonatorDetail-request',this.#requestResonatorDetail)
+        this.#btnEvent = new CustomEvent('click', {
+            detail:{
+                callback:()=>{
+                    const resonator_choice = this.querySelector('resonator-choice')
+                    resonatorChoice.showDialog()
+                }
+            },
+            bubbles:true,
+            composed: true
+        })
+        this.resonatorId = 1
 
         const resonatorEcho = Array(5).fill(0).map(()=>`
             <resonatorecho-create></resonatorecho-create>
@@ -48,8 +60,10 @@ class ResonatorEcho extends HTMLElement{
                 ${resonatorEcho}
                 <resonatorecho-score></resonatorecho-score>
             </div>
+            <div>
+                <resonator-choice></resonator-choice>
+            <div>
         `
-        this.resonatorId = 1
     }
 
     disconnectedCallback(){
@@ -82,6 +96,8 @@ class ResonatorEcho extends HTMLElement{
     render(){
         const validStatTable = this.querySelector("resonator-validstat")
         const resonatorImg = this.querySelector("resonator-img")
+        const resonatorChoiceBtn = this.querySelector("resonator-choice-btn")
+        resonatorChoiceBtn.event = this.#btnEvent
         if(Object.keys(this.#resonatorDetail).length > 0){
             console.log(this.#resonatorDetail)
             validStatTable.validStats = this.#resonatorDetail?.validStats

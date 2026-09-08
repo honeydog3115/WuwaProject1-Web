@@ -2,11 +2,12 @@ import "../component/FilterItemBtn.js"
 import "../component/resonator/choice/ResonatorCard.js"
 import "../component/SearchComponent.js"
 
-class ResonatorChoice extends HTMLAnchorElement {
+class ResonatorChoice extends HTMLElement {
     #starNumber = 2
     #resonators = []
     #attributes = []
     #weapons = []
+    #dialog = null
 
     set searchInfo({ resonators: resonators, attributes: attributes, weapons: weapons }) {
         this.#resonators = resonators || []
@@ -18,12 +19,24 @@ class ResonatorChoice extends HTMLAnchorElement {
     setFilterInfo(filterInfos, targetParentClass){
         if(filterInfos.length > 0){
             const parent = this.querySelector("."+targetParentClass)
-            const filters = parent.children()
+            const filters = parent.children
             filterInfos.map((info, index)=>{
                 filters[index].filterInfo = info
             })
         }
     }    
+
+    showDialog(){
+        if(this.#dialog && !this.#dialog.open){
+            this.#dialog.showModal()
+        }
+    }
+
+    closeDialog(){
+        if(this.#dialog && this.#dialog.open){
+            this.#dialog.close()
+        }
+    }
 
     connectedCallback() {
         this.render()
@@ -59,12 +72,12 @@ class ResonatorChoice extends HTMLAnchorElement {
                 </div>
             </dialog>
         `
-
+        this.#dialog = this.querySelector('dialog')
         this.setFilterInfo(this.#attributes, "attribute-filter")
         this.setFilterInfo(this.#weapons, "weapon-filter")
         if(this.#resonators.length > 0){
             const parent = this.querySelector(".card-list")
-            const cardList = parent.children()
+            const cardList = parent.children
             this.#resonators.map((resonator, index)=>{
                 cardList[index].resonator = resonator
                 cardList[index].attribute = this.#attributes.find(attribute=> attribute.id === resonator.attributeId) 

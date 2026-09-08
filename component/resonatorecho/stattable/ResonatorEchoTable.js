@@ -21,8 +21,8 @@ class ResonatorEchoTable extends HTMLElement{
         this.render()
 
         this.addEventListener('click', this.#subStatNameClickEvent)
-        this.dispatchEvent(
-            new CustomEvent('context-request', {
+        this.addEventListener('click', this.#subStatValueClickEvent)
+        this.dispatchEvent(new CustomEvent('context-request', {
                 detail: {
                     context: subStatInfosContext,
                     subscribe: true,
@@ -58,7 +58,6 @@ class ResonatorEchoTable extends HTMLElement{
         event.stopPropagation();
         if(event.target.tagName === 'LI' && event.target.closest('.subStatName')){
             const target = event.target
-            console.log(target.dataset.id)
             const subStatInfo = this.#subStatInfos.find(subStatInfo => subStatInfo.id === Number(target.dataset.id))
             const subStatRow = target.closest('.subStat-row')
             const subStatValue = subStatRow.querySelector('subStat-value')
@@ -66,6 +65,17 @@ class ResonatorEchoTable extends HTMLElement{
         }
     }
 
+    #subStatValueClickEvent = (event) => {
+        event.stopPropagation();
+        if(event.target.tagName === 'LI' && event.target.closest('.subStatValue')){
+            const target = event.target
+            const subStatValueId = target.dataset.id
+            const index = Number(target.dataset.index)
+            const subStatInfos = this.#subStatInfos.find(subStatInfo => subStatInfo.subStatInfos.some(subStatInfo => subStatInfo.id === Number(subStatValueId))).subStatInfos
+            const data = {...subStatInfos[index], index: index, length: subStatInfos.length}
+            console.log(data)
+        }
+    }
 
     render() {
         this.innerHTML = `

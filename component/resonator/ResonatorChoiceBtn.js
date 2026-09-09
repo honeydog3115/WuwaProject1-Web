@@ -3,8 +3,11 @@ class ResonatorChoiceBtn extends HTMLElement{
         this.render()
     }
 
-    set event(data){
-        this.addEventListener('btnEvent', data)
+    set event(event){
+        const btn = this.querySelector('button')
+        btn.addEventListener('click', ()=>{
+            this.dispatchEvent(event)
+        })
     }
 
     render() {

@@ -4,6 +4,7 @@ import '../component/resonator/ResonatorValidStat.js';
 import '../component/resonatorecho/ResonatorEchoCreate.js';
 import '../component/resonatorecho/ResonatorEchoScore.js';
 import "../component/resonatorecho/chancetable/ChanceTable.js";
+import "../page/ResonatorChoice.js";
 
 import { getResonatorDetail } from '../api/resonatorApi.js';
 import { getSubStatInfos } from '../api/subStatApi.js';
@@ -14,7 +15,6 @@ class ResonatorEcho extends HTMLElement{
     #resonatorDetail = {}
     #subStatInfos = []
     #subscribers = new Set();
-    #btnEvent = null
 
     set resonatorId(data){
         if(this.#resonatorId !== data){
@@ -33,16 +33,7 @@ class ResonatorEcho extends HTMLElement{
     connectedCallback(){
         this.addEventListener('context-request', this.#handleContextRequest)
         this.addEventListener('resonatorDetail-request',this.#requestResonatorDetail)
-        this.#btnEvent = new CustomEvent('click', {
-            detail:{
-                callback:()=>{
-                    const resonator_choice = this.querySelector('resonator-choice')
-                    resonatorChoice.showDialog()
-                }
-            },
-            bubbles:true,
-            composed: true
-        })
+        this.addEventListener('btnClick', this.#handleResonatorChoiceBtnClick)
         this.resonatorId = 1
 
         const resonatorEcho = Array(5).fill(0).map(()=>`
@@ -64,11 +55,25 @@ class ResonatorEcho extends HTMLElement{
                 <resonator-choice></resonator-choice>
             <div>
         `
+        const resonatorChoiceBtn = this.querySelector("resonator-choice-btn")
+        resonatorChoiceBtn.event = new CustomEvent('btnClick', {
+            detail:{ expected: this.querySelector('resonator-choice-btn') },
+            bubbles:true,
+            composed: true
+        })
     }
 
     disconnectedCallback(){
         this.removeEventListener('context-request', this.#handleContextRequest)
         this.#subscribers.clear()
+    }
+
+    #handleResonatorChoiceBtnClick = (event) => {
+        if(event.detail.expected = event.target){
+            event.stopPropagation()
+            const resonatorChoice = this.querySelector('resonator-choice')
+            resonatorChoice.showDialog();
+        }
     }
 
     #handleContextRequest = async (event) => {
@@ -96,8 +101,7 @@ class ResonatorEcho extends HTMLElement{
     render(){
         const validStatTable = this.querySelector("resonator-validstat")
         const resonatorImg = this.querySelector("resonator-img")
-        const resonatorChoiceBtn = this.querySelector("resonator-choice-btn")
-        resonatorChoiceBtn.event = this.#btnEvent
+
         if(Object.keys(this.#resonatorDetail).length > 0){
             console.log(this.#resonatorDetail)
             validStatTable.validStats = this.#resonatorDetail?.validStats

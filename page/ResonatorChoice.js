@@ -42,6 +42,20 @@ class ResonatorChoice extends HTMLElement {
         this.render()
     }
 
+    #handleDialogClose = (event) => {
+        const rect = this.#dialog.getBoundingClientRect()
+        const isClickOutside = (
+            event.clientX < rect.left ||
+            event.clientX > rect.right ||
+            event.clientY < rect.top ||
+            event.clientY > rect.bottom
+        );
+
+        if (isClickOutside) {
+            this.closeDialog();
+        }
+    }
+
     render() {
         const starFilter = Array(this.#starNumber + 1).fill(0).map(() => `
             <filter-item-btn></filter-item-btn>
@@ -73,6 +87,7 @@ class ResonatorChoice extends HTMLElement {
             </dialog>
         `
         this.#dialog = this.querySelector('dialog')
+        this.#dialog.addEventListener('click', this.#handleDialogClose)
         this.setFilterInfo(this.#attributes, "attribute-filter")
         this.setFilterInfo(this.#weapons, "weapon-filter")
         if(this.#resonators.length > 0){

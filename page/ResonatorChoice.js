@@ -1,3 +1,4 @@
+import { getResonators } from "../api/resonatorApi.js"
 import "../component/FilterItemBtn.js"
 import "../component/resonator/choice/ResonatorCard.js"
 import "../component/SearchComponent.js"
@@ -39,6 +40,13 @@ class ResonatorChoice extends HTMLElement {
     }
 
     connectedCallback() {
+        this.render()
+        this.#getResonators()
+    }
+
+    #getResonators = async()=>{
+        const resonators = await getResonators()
+        this.#resonators = resonators
         this.render()
     }
 

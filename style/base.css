@@ -1,0 +1,40 @@
+body {
+    margin:0;
+    padding:0;
+    box-sizing:border-box; /* 디자인하기 편한 도구 */
+}
+#root{
+    width: 100vw;
+    height: 100vh;            
+}
+#root > header{
+    width: 100vw;
+    height: 50px;
+    background-color: #222831;
+}
+#root > div > aside{
+    width: 200px;
+    height: calc(100vh - 50px);
+    background-color: #222831;
+}
+#root > div > main{
+    background-color: #1E2022;
+}
+.display-grid{
+    display: grid;
+}
+.display-flex{
+    display: flex;
+}
+.grid-col-auto-1fr{
+    grid-template-columns: auto 1fr;
+}
+.header-color{
+    background-color: #222831;
+}
+.width-100vw{
+    width: 100vw;
+}
+.height-20px{
+    height: 20px;
+}

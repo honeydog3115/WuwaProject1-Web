@@ -1,3 +1,5 @@
+import { ATTRIBUTE_IMAGE_URL, RESONATOR_IMAGE_URL, WEAPON_IMAGE_URL } from "../../../config/env"
+
 class ResonatorCard extends HTMLElement{
     #attribute = {}
     #weapon = {}
@@ -45,13 +47,16 @@ class ResonatorCard extends HTMLElement{
     }
 
     render(){
+        const attribute = this.#resonator ? this.#resonator.attribute : undefined 
+        const weapon = this.#resonator ? this.#resonator.weapon : undefined 
         this.innerHTML = `
-            <div class="width-10vw">
-                <img src="${this.#attribute.image}" alt="">
-                <img src="${this.#weapon.image}" alt="">
-                <img src="${this.#resonator.image}" alt="">
+            <div>
+                <img src="${ATTRIBUTE_IMAGE_URL}${attribute.imagePath}" alt="">
+                <img src="${WEAPON_IMAGE_URL}${weapon.imagePath}" alt="">
+                <img src="${RESONATOR_IMAGE_URL}${this.#resonator.imagePath}" alt="">
                 <span>${this.#resonator.name}</span>
             </div>
         `
     }
 }
+customElements.define("resonator-card", ResonatorCard)

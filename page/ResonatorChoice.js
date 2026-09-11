@@ -99,12 +99,11 @@ class ResonatorChoice extends HTMLElement {
         this.setFilterInfo(this.#attributes, "attribute-filter")
         this.setFilterInfo(this.#weapons, "weapon-filter")
         if(this.#resonators.length > 0){
-            const parent = this.querySelector(".card-list")
-            const cardList = parent.children
+            const cardList = Array.from(this.querySelectorAll("resonator-card"))
             this.#resonators.map((resonator, index)=>{
                 cardList[index].resonator = resonator
-                cardList[index].attribute = this.#attributes.find(attribute=> attribute.id === resonator.attributeId) 
-                cardList[index].weapon = this.#weapons.find(weapon=> weapon.id === resonator.weaponId) 
+                //cardList[index].attribute = this.#attributes.find(attribute=> attribute.id === resonator.attributeId) 
+                //cardList[index].weapon = this.#weapons.find(weapon=> weapon.id === resonator.weaponId) 
             })
         }
     }

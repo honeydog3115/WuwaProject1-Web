@@ -38,6 +38,12 @@ body {
 .width-80vw{
     width: 80vw;
 }
+.width-60vw{
+    width: 60vw;
+}
+.width-10vw{
+    width: 10vw;
+}
 .height-100vh{
     height: 80vh;
 }

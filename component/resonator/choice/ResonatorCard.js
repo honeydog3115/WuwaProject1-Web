@@ -46,7 +46,7 @@ class ResonatorCard extends HTMLElement{
 
     render(){
         this.innerHTML = `
-            <div>
+            <div class="width-10vw">
                 <img src="${this.#attribute.image}" alt="">
                 <img src="${this.#weapon.image}" alt="">
                 <img src="${this.#resonator.image}" alt="">

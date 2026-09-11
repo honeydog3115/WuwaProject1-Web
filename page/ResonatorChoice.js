@@ -82,14 +82,14 @@ class ResonatorChoice extends HTMLElement {
             `).join('') : ""
 
         this.innerHTML = `
-            <dialog>
+            <dialog class="width-80vw height-80vw">
                 <div class="search-bar">
                     <search-component></search-component>
                     <div class="star-filter">${starFilter}</div>
                     <div class="attribute-filter">${attributeFilter}</div>
                     <div class="weapon-filter">${weaponFilter}</div>
                 </div>
-                <div class="card-list">
+                <div class="card-list width-60vw">
                     ${cardList}
                 </div>
             </dialog>

@@ -106,6 +106,7 @@ class ResonatorChoice extends HTMLElement {
                 //cardList[index].weapon = this.#weapons.find(weapon=> weapon.id === resonator.weaponId) 
             })
         }
+        
     }
 }
 customElements.define("resonator-choice", ResonatorChoice)

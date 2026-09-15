@@ -6,6 +6,7 @@ import '../component/resonatorecho/ResonatorEchoScore.js';
 import "../component/resonatorecho/chancetable/ChanceTable.js";
 import "../page/ResonatorChoice.js";
 
+import { getAttributes } from '../api/attributeApi.js';
 import { getResonatorDetail } from '../api/resonatorApi.js';
 import { getSubStatInfos } from '../api/subStatApi.js';
 import { subStatInfosContext } from '../context/resonatorEchoContext.js';
@@ -14,6 +15,7 @@ class ResonatorEcho extends HTMLElement{
     #resonatorId = 0
     #resonatorDetail = {}
     #subStatInfos = []
+    #attributes = []
     #subscribers = new Set();
 
     set resonatorId(data){
@@ -96,6 +98,9 @@ class ResonatorEcho extends HTMLElement{
 
     #requestResonatorDetail = async (event) => {
         this.resonatorDetail = await getResonatorDetail(this.#resonatorId)
+    }
+    #requestAttributes = async () => {
+        this.#attributes = await getAttributes()
     }
 
     render(){

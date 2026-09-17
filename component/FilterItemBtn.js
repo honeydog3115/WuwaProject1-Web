@@ -1,4 +1,4 @@
-import { ATTRIBUTE_IMAGE_URL } from "../config/env"
+import { ATTRIBUTE_IMAGE_URL, WEAPON_IMAGE_URL } from "../config/env"
 
 class FilterItemBtn extends HTMLElement{
     // static get observedAttributes(){
@@ -6,6 +6,10 @@ class FilterItemBtn extends HTMLElement{
     // }
 
     #filterInfo = {id: 0, name: "", imagePath: ""}
+    #imageMap = {
+        "attribute-filter": ATTRIBUTE_IMAGE_URL,
+        "weapon-filter": WEAPON_IMAGE_URL, 
+    }
 
     get filterInfo(){
         return this.#filterInfo
@@ -31,10 +35,11 @@ class FilterItemBtn extends HTMLElement{
     // }
 
     render(){
+        const imageUrl = this.#imageMap[this.parentElement.className] || ""
         const imagePath = this.#filterInfo.imagePath
         const name = this.#filterInfo.name
         const filterContent = imagePath !== ""
-        ? `<img src="${ATTRIBUTE_IMAGE_URL}${imagePath}" alt="필터 이미지를 불러오는데 실패했습니다.">`
+        ? `<img src="${imageUrl}${imagePath}" alt="필터 이미지를 불러오는데 실패했습니다.">`
         :`<span>${name}</span>`
         
         this.innerHTML = `

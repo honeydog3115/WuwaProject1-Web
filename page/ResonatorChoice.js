@@ -42,21 +42,35 @@ class ResonatorChoice extends HTMLElement {
 
     connectedCallback() {
         this.render()
-        this.#getResonators()
-        this.#getAttributes()
+        this.#initData()
     }
 
-    #getResonators = async()=>{
-        const resonators = await getResonators()
-        this.#resonators = resonators
-        this.render()
-    }
-    
-    #getAttributes = async()=>{
-        const attributes = await getAttributes()
+
+    #initData = async () => {
+        const [resoantors, attributes, weapons] = await Promise.all([getResonators, getAttributes, getWeapons])
+        this.#resonators = resoantors
         this.#attributes = attributes
+        this.#weapons = weapons
         this.render()
     }
+
+    // #getResonators = async()=>{
+    //     const resonators = await getResonators()
+    //     this.#resonators = resonators
+    //     this.render()
+    // }
+    
+    // #getAttributes = async()=>{
+    //     const attributes = await getAttributes()
+    //     this.#attributes = attributes
+    //     this.render()
+    // }
+
+    // #getWeapons = async() => {
+    //     const weapons = await getWeapons()
+    //     this.#weapons = weapons
+    //     this.render()
+    // }
 
     #handleDialogClose = (event) => {
         const rect = this.#dialog.getBoundingClientRect()

@@ -1,3 +1,4 @@
+import { getAttributes } from "../api/attributeApi.js"
 import { getResonators } from "../api/resonatorApi.js"
 import "../component/FilterItemBtn.js"
 import "../component/resonator/choice/ResonatorCard.js"
@@ -20,7 +21,7 @@ class ResonatorChoice extends HTMLElement {
     setFilterInfo(filterInfos, targetParentClass){
         if(filterInfos.length > 0){
             const parent = this.querySelector("."+targetParentClass)
-            const filters = parent.children
+            const filters = Array.from(parent.children)
             filterInfos.map((info, index)=>{
                 filters[index].filterInfo = info
             })
@@ -42,11 +43,18 @@ class ResonatorChoice extends HTMLElement {
     connectedCallback() {
         this.render()
         this.#getResonators()
+        this.#getAttributes()
     }
 
     #getResonators = async()=>{
         const resonators = await getResonators()
         this.#resonators = resonators
+        this.render()
+    }
+    
+    #getAttributes = async()=>{
+        const attributes = await getAttributes()
+        this.#attributes = attributes
         this.render()
     }
 
@@ -102,7 +110,7 @@ class ResonatorChoice extends HTMLElement {
             const cardList = Array.from(this.querySelectorAll("resonator-card"))
             this.#resonators.map((resonator, index)=>{
                 cardList[index].resonator = resonator
-                //cardList[index].attribute = this.#attributes.find(attribute=> attribute.id === resonator.attributeId) 
+                // cardList[index].attribute = this.#attributes.find(attribute=> attribute.id === resonator.attributeId) 
                 //cardList[index].weapon = this.#weapons.find(weapon=> weapon.id === resonator.weaponId) 
             })
         }

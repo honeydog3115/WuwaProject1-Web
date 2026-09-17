@@ -1,3 +1,5 @@
+import { ATTRIBUTE_IMAGE_URL } from "../config/env"
+
 class FilterItemBtn extends HTMLElement{
     // static get observedAttributes(){
     //     return ['data-target']
@@ -31,8 +33,8 @@ class FilterItemBtn extends HTMLElement{
     render(){
         const imagePath = this.#filterInfo.imagePath
         const name = this.#filterInfo.name
-        const filterContent = imagePath 
-        ? `<img src="${filterContent}" alt="필터 이미지를 불러오는데 실패했습니다.">`
+        const filterContent = imagePath !== ""
+        ? `<img src="${ATTRIBUTE_IMAGE_URL}${imagePath}" alt="필터 이미지를 불러오는데 실패했습니다.">`
         :`<span>${name}</span>`
         
         this.innerHTML = `

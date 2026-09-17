@@ -1,5 +1,6 @@
 import { getAttributes } from "../api/attributeApi.js"
 import { getResonators } from "../api/resonatorApi.js"
+import { getWeapons } from "../api/weaponApi.js"
 import "../component/FilterItemBtn.js"
 import "../component/resonator/choice/ResonatorCard.js"
 import "../component/SearchComponent.js"
@@ -47,7 +48,7 @@ class ResonatorChoice extends HTMLElement {
 
 
     #initData = async () => {
-        const [resoantors, attributes, weapons] = await Promise.all([getResonators, getAttributes, getWeapons])
+        const [resoantors, attributes, weapons] = await Promise.all([getResonators(), getAttributes(), getWeapons()])
         this.#resonators = resoantors
         this.#attributes = attributes
         this.#weapons = weapons

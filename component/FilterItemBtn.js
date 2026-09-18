@@ -26,6 +26,14 @@ class FilterItemBtn extends HTMLElement{
 
     connectedCallback(){
         this.render()
+        this.addEventListener('click', this.#clickEvent)
+    }
+
+    #clickEvent = (event) => {
+        event.preventDefault();
+        this.dispatchEvent(new CustomEvent('click-filter',{
+            bubbles : true
+        }))
     }
 
     // attributeChangedCallback(name, oldValue, newValue){

@@ -11,6 +11,12 @@ class ResonatorChoice extends HTMLElement {
     #attributes = []
     #weapons = []
     #dialog = null
+    #filterMapping = {
+        "attribute-filter" : (resonator, attribute) => resonator.attribute.id === attribute.id,
+        "weapon-filter" : (resonator, weapon) => resonator.weapon.id === weapon.id,
+        "star-filter" : (resonator, star) => resonator.star === star,
+    }
+    #filteredResonators = []
 
     set searchInfo({ resonators: resonators, attributes: attributes, weapons: weapons }) {
         this.#resonators = resonators || []
@@ -42,6 +48,7 @@ class ResonatorChoice extends HTMLElement {
     }
 
     connectedCallback() {
+        this.addEventListener("click-filter", this.#clickFilter)
         this.render()
         this.#initData()
     }
@@ -87,6 +94,27 @@ class ResonatorChoice extends HTMLElement {
         }
     }
 
+    #clickFilter = (event) => {
+        event.preventDefault();
+        const filter =  event.target.closest("[class$=-filter]")
+        const mappingFunction = this.#filterMapping[filter.className]
+        const filteredResonators = this.#resonators.filter(
+            (resoantor) => mappingFunction(resoantor, event.target.filterInfo)    
+        )
+        this.#filteredResonators = filteredResonators
+        const cardList = Array.from(this.querySelectorAll("resonator-card"))
+        const filteredIds = this.#filteredResonators.map((resonator)=>resonator.id)
+        cardList.forEach(
+            (card)=>{
+                const resonator = card.resonator
+                if(filteredIds.includes(resonator.id))
+                    card.style.display = "flex"
+                else
+                    card.style.display = "none"
+            }
+        )
+    }
+
     render() {
         const starFilter = Array(this.#starNumber + 1).fill(0).map(() => `
             <filter-item-btn></filter-item-btn>
@@ -99,7 +127,8 @@ class ResonatorChoice extends HTMLElement {
             ? this.#weapons.map((weapon) => `
                 <filter-item-btn data-id="${weapon.id}"></filter-item-btn>
             `).join('') : ""
-        const cardList = this.#resonators.length !== 0 
+        const resonatorData = this.#filteredResonators.length !== 0 ? this.#filteredResonators : this.#resonators
+        const cardList = resonatorData.length !== 0 
             ? this.#resonators.map((resonator) => `
                 <resonator-card></resonator-card>
             `).join('') : ""

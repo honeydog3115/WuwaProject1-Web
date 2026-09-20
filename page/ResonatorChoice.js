@@ -9,14 +9,20 @@ class ResonatorChoice extends HTMLElement {
     #starNumber = 2
     #resonators = []
     #attributes = []
+    #stars = [{id: 4, name: "4★"}, {id: 5, name: "5★"}]
     #weapons = []
     #dialog = null
-    #filterMapping = {
-        "attribute-filter" : (resonator, attribute) => resonator.attribute.id === attribute.id,
-        "weapon-filter" : (resonator, weapon) => resonator.weapon.id === weapon.id,
-        "star-filter" : (resonator, star) => resonator.star === star,
-    }
     #filteredResonators = []
+    #filterMapping = {
+        "attribute-filter" : (resonator, attribute) =>  attribute.includes(resonator.attribute.id),
+        "weapon-filter" : (resonator, weapon) => weapon.includes(resonator.weapon.id),
+        "star-filter" : (resonator, star) => star.includes(resonator.star)
+    }
+    #appliedFilter = {
+        "attribute-filter" : [1,2,3,4,5,6],
+        "weapon-filter" : [1,2,3,4,5],
+        "star-filter" : [4,5]
+    }
 
     set searchInfo({ resonators: resonators, attributes: attributes, weapons: weapons }) {
         this.#resonators = resonators || []
@@ -97,11 +103,37 @@ class ResonatorChoice extends HTMLElement {
     #clickFilter = (event) => {
         event.preventDefault();
         const filter =  event.target.closest("[class$=-filter]")
-        const mappingFunction = this.#filterMapping[filter.className]
-        const filteredResonators = this.#resonators.filter(
-            (resoantor) => mappingFunction(resoantor, event.target.filterInfo)    
-        )
-        this.#filteredResonators = filteredResonators
+        const filterName = filter.className
+        const resonators = this.#resonators
+        this.#filteredResonators = resonators
+
+        Object.keys(this.#filterMapping).forEach((key)=>{
+            const id = filterName === key ? [event.target.filterInfo.id] : this.#appliedFilter[key]
+                this.#filteredResonators = this.#filteredResonators.filter(
+                    (resoantor) => this.#filterMapping[key](resoantor, id)
+                )
+
+            // 필터 id 갱신
+            if(this.#appliedFilter[key] !== id)
+                this.#appliedFilter[key] = id
+        })
+
+        // if(id === "all")
+        // filteredResonators = filteredResonators.filter(
+        //     (resoantor) => this.#filterMapping["attribute-filter"](resoantor, id)
+        // )
+        // if (filterName === "weapon-filter"){
+        //     filteredResonators = filteredResonators.filter(
+        //         (resoantor) => this.#filterMapping["weapon-filter"](resoantor, event.target.filterInfo.id)
+        //     )
+        // }
+        // else if(filterName === "star-filter"){
+        //     filteredResonators = filteredResonators.filter(
+        //         (resoantor) => this.#filterMapping["star-filter"](resoantor, event.target.filterInfo)
+        //     )
+        // }
+
+        // this.#filteredResonators = filteredResonators
         const cardList = Array.from(this.querySelectorAll("resonator-card"))
         const filteredIds = this.#filteredResonators.map((resonator)=>resonator.id)
         cardList.forEach(
@@ -150,6 +182,7 @@ class ResonatorChoice extends HTMLElement {
         this.#dialog.addEventListener('click', this.#handleDialogClose)
         this.setFilterInfo(this.#attributes, "attribute-filter")
         this.setFilterInfo(this.#weapons, "weapon-filter")
+        this.setFilterInfo(this.#stars, "star-filter")
         if(this.#resonators.length > 0){
             const cardList = Array.from(this.querySelectorAll("resonator-card"))
             this.#resonators.map((resonator, index)=>{

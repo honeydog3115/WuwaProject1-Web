@@ -9,7 +9,7 @@ class ResonatorChoice extends HTMLElement {
     #starNumber = 2
     #resonators = []
     #attributes = []
-    #stars = [{id: 4, name: "4★"}, {id: 5, name: "5★"}]
+    #stars = [{id: [4,5], name: "all"}, {id: 4, name: "4★"}, {id: 5, name: "5★"}]
     #weapons = []
     #dialog = null
     #filteredResonators = []
@@ -59,12 +59,11 @@ class ResonatorChoice extends HTMLElement {
         this.#initData()
     }
 
-
     #initData = async () => {
         const [resoantors, attributes, weapons] = await Promise.all([getResonators(), getAttributes(), getWeapons()])
         this.#resonators = resoantors
-        this.#attributes = attributes
-        this.#weapons = weapons
+        this.#attributes = [ {id: attributes.map((attribute)=> attribute.id), name: "all"}, ...attributes]
+        this.#weapons = [ {id: weapons.map((weapon)=> weapon.id), name: "all"}, ...weapons]
         this.render()
     }
 
@@ -108,7 +107,10 @@ class ResonatorChoice extends HTMLElement {
         this.#filteredResonators = resonators
 
         Object.keys(this.#filterMapping).forEach((key)=>{
-            const id = filterName === key ? [event.target.filterInfo.id] : this.#appliedFilter[key]
+            const id = filterName === key 
+                // all 버튼은 []의 형태라 풀어서 넣어줘야함.
+                ? Array.isArray(event.target.filterInfo.id) ? [...event.target.filterInfo.id] : [event.target.filterInfo.id]
+                : this.#appliedFilter[key]
                 this.#filteredResonators = this.#filteredResonators.filter(
                     (resoantor) => this.#filterMapping[key](resoantor, id)
                 )
@@ -118,22 +120,6 @@ class ResonatorChoice extends HTMLElement {
                 this.#appliedFilter[key] = id
         })
 
-        // if(id === "all")
-        // filteredResonators = filteredResonators.filter(
-        //     (resoantor) => this.#filterMapping["attribute-filter"](resoantor, id)
-        // )
-        // if (filterName === "weapon-filter"){
-        //     filteredResonators = filteredResonators.filter(
-        //         (resoantor) => this.#filterMapping["weapon-filter"](resoantor, event.target.filterInfo.id)
-        //     )
-        // }
-        // else if(filterName === "star-filter"){
-        //     filteredResonators = filteredResonators.filter(
-        //         (resoantor) => this.#filterMapping["star-filter"](resoantor, event.target.filterInfo)
-        //     )
-        // }
-
-        // this.#filteredResonators = filteredResonators
         const cardList = Array.from(this.querySelectorAll("resonator-card"))
         const filteredIds = this.#filteredResonators.map((resonator)=>resonator.id)
         cardList.forEach(
@@ -183,6 +169,7 @@ class ResonatorChoice extends HTMLElement {
         this.setFilterInfo(this.#attributes, "attribute-filter")
         this.setFilterInfo(this.#weapons, "weapon-filter")
         this.setFilterInfo(this.#stars, "star-filter")
+
         if(this.#resonators.length > 0){
             const cardList = Array.from(this.querySelectorAll("resonator-card"))
             this.#resonators.map((resonator, index)=>{

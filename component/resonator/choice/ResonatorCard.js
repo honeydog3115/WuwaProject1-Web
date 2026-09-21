@@ -13,7 +13,18 @@ class ResonatorCard extends HTMLElement{
     }
 
     connectedCallback(){
+        this.addEventListener("click", this.#clickEvent)
         this.render()
+    }
+
+    #clickEvent = (event)=>{
+        event.preventDefault();
+        this.dispatchEvent(new CustomEvent('choice-resonator',{
+            detail : {
+                resonator : this.#resonator
+            },
+            bubbles : true
+        }))
     }
 
     render(){

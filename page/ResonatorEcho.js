@@ -36,6 +36,7 @@ class ResonatorEcho extends HTMLElement{
         this.addEventListener('context-request', this.#handleContextRequest)
         this.addEventListener('resonatorDetail-request',this.#requestResonatorDetail)
         this.addEventListener('btnClick', this.#handleResonatorChoiceBtnClick)
+        this.addEventListener('choice-resonator', this.#choiceResonator)
         this.resonatorId = 1
 
         const resonatorEcho = Array(5).fill(0).map(()=>`
@@ -102,6 +103,16 @@ class ResonatorEcho extends HTMLElement{
     #requestAttributes = async () => {
         this.#attributes = await getAttributes()
     }
+
+    #choiceResonator = async (event) => {
+        event.preventDefault();
+        console.log(event.detail)
+        this.#resonatorDetail = await getResonatorDetail(event.detail.resonator.id)
+        console.log("디테일", this.#resonatorDetail)
+        this.render()
+        const resonatorChoice = this.querySelector('resonator-choice')
+        resonatorChoice.closeDialog();
+    } 
 
     render(){
         const validStatTable = this.querySelector("resonator-validstat")

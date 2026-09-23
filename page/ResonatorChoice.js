@@ -120,6 +120,23 @@ class ResonatorChoice extends HTMLElement {
                 this.#appliedFilter[key] = id
         })
 
+        this.#cardListOnOff()
+    }
+
+    #onSubmit = (event) => {
+        event.preventDefault();
+        const searchComponent =  this.querySelector("search-component")
+        const searchData = searchComponent.searchData
+
+        this.#filteredResonators = this.#resonators.map((resonator)=>{
+            if(resonator.name.toLowerCase().includes(searchData.toLowerCase()))
+                return resonator
+        })
+
+        this.#cardListOnOff()
+    }
+
+    #cardListOnOff = () => {
         const cardList = Array.from(this.querySelectorAll("resonator-card"))
         const filteredIds = this.#filteredResonators.map((resonator)=>resonator.id)
         cardList.forEach(

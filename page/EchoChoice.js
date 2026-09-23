@@ -41,14 +41,14 @@ class EchoChoice extends HTMLElement{
                 <echo-card></echo-card>
             `).join("")
             return `
-                <div>
+                <dialog class="width-80vw height-80vw">
                     <div>
                         <sonataeffect></sonataeffect>
                     </div>
                     <div>
                         ${echoCard}
                     </div>
-                </div>
+                </dialog>
             `}).join("")
 
         this.innerHTML = `

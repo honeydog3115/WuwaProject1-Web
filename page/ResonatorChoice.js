@@ -13,6 +13,8 @@ class ResonatorChoice extends HTMLElement {
     #weapons = []
     #dialog = null
     #filteredResonators = []
+    #filterName = ""
+    #searchData = ""
     #filterMapping = {
         "attribute-filter" : (resonator, attribute) =>  attribute.includes(resonator.attribute.id),
         "weapon-filter" : (resonator, weapon) => weapon.includes(resonator.weapon.id),
@@ -99,41 +101,39 @@ class ResonatorChoice extends HTMLElement {
         }
     }
 
-    #clickFilter = (event) => {
-        event.preventDefault();
-        const filter =  event.target.closest("[class$=-filter]")
-        const filterName = filter.className
-        const resonators = this.#resonators
-        this.#filteredResonators = resonators
+    #resonatorFilter = () => {
+        this.#filteredResonators = this.#resonators.filter((resonator)=>{
+            if(resonator.name.toLowerCase().includes(this.#searchData.toLowerCase()))
+                return resonator
+        })
 
         Object.keys(this.#filterMapping).forEach((key)=>{
-            const id = filterName === key 
-                // all 버튼은 []의 형태라 풀어서 넣어줘야함.
-                ? Array.isArray(event.target.filterInfo.id) ? [...event.target.filterInfo.id] : [event.target.filterInfo.id]
-                : this.#appliedFilter[key]
-                this.#filteredResonators = this.#filteredResonators.filter(
-                    (resoantor) => this.#filterMapping[key](resoantor, id)
-                )
-
-            // 필터 id 갱신
-            if(this.#appliedFilter[key] !== id)
-                this.#appliedFilter[key] = id
+            this.#filteredResonators = this.#filteredResonators.filter(
+                (resoantor) => this.#filterMapping[key](resoantor, this.#appliedFilter[key])
+            )
         })
 
         this.#cardListOnOff()
+
+    }
+
+    #clickFilter = (event) => {
+        event.preventDefault();
+        const filter =  event.target.closest("[class$=-filter]")
+        this.#filterName = filter.className
+        const resonators = this.#resonators
+        this.#filteredResonators = resonators
+        this.#appliedFilter[this.#filterName] = Array.isArray(event.target.filterInfo.id) ? [...event.target.filterInfo.id] : [event.target.filterInfo.id]
+
+        this.#resonatorFilter()
     }
 
     #onSubmit = (event) => {
         event.preventDefault();
         const searchComponent =  this.querySelector("search-component")
-        const searchData = searchComponent.searchData
+        this.#searchData = searchComponent.searchData
 
-        this.#filteredResonators = this.#resonators.map((resonator)=>{
-            if(resonator.name.toLowerCase().includes(searchData.toLowerCase()))
-                return resonator
-        })
-
-        this.#cardListOnOff()
+        this.#resonatorFilter()
     }
 
     #cardListOnOff = () => {
@@ -186,6 +186,8 @@ class ResonatorChoice extends HTMLElement {
         this.setFilterInfo(this.#attributes, "attribute-filter")
         this.setFilterInfo(this.#weapons, "weapon-filter")
         this.setFilterInfo(this.#stars, "star-filter")
+        const searchComponent = this.querySelector('search-component')
+        searchComponent.searchInfo = {action: "", method: "GET", onsubmit: this.#onSubmit}
 
         if(this.#resonators.length > 0){
             const cardList = Array.from(this.querySelectorAll("resonator-card"))

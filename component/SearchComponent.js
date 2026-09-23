@@ -25,10 +25,10 @@ class SearchComponent extends HTMLElement{
     }
 
     render(){
-            const { action, method, onsubmit} = this.#searchInfo;
-            this.innerHTML = `
+        const { action, method, onsubmit} = this.#searchInfo;
+        this.innerHTML = `
             <search>
-                <form action="${action}" method="${method}" onsubmit="${onsubmit}">
+                <form action="${action}" method="${method}">
                     <!--버튼과 인풋을 합쳐서 하나로 보이게 만들거임.-->
                     <div>
                         <button type="submit">
@@ -39,6 +39,8 @@ class SearchComponent extends HTMLElement{
                 </form>
             </search>
         `
+        const form = this.querySelector('form');
+        form.onsubmit = onsubmit;
     }
 }
 customElements.define("search-component",SearchComponent)

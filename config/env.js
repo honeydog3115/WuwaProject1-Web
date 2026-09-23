@@ -3,12 +3,18 @@ const BASE_IMAGE_URL = import.meta.env.VITE_IMAGE_BASE_URL
 const RESONATOR = import.meta.env.VITE_RESONATOR_IMAGE_URL
 const ATTRIBUTE = import.meta.env.VITE_ATTRIBUTE_IMAGE_URL
 const WEAPON = import.meta.env.VITE_WEAPON_IMAGE_URL
+const ICON = import.meta.env.VITE_ICON_IMAGE_URL
 
 const DEFAULT_ATTR_IMG = import.meta.env.VITE_DEFAULT_ATTRIBUTE_IMG
 const DEFAULT_WEAPON_IMG = import.meta.env.VITE_DEFAULT_WEAPON_IMG
+
+const createImgUrl = (dir) => {
+    return `${BASE_IMAGE_URL}${dir}`
+}
 
 export const RESONATOR_IMAGE_URL = `${BASE_IMAGE_URL}${RESONATOR}`
 export const ATTRIBUTE_IMAGE_URL = `${BASE_IMAGE_URL}${ATTRIBUTE}`
 export const WEAPON_IMAGE_URL = `${BASE_IMAGE_URL}${WEAPON}`
 export const DEFAULT_ATTR_IMG_URL = `${BASE_IMAGE_URL}${DEFAULT_ATTR_IMG}`
 export const DEFAULT_WEAPON_IMG_URL = `${BASE_IMAGE_URL}${DEFAULT_WEAPON_IMG}`
+export const ICON_IMAGE_URL = createImgUrl(ICON)

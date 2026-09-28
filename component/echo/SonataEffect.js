@@ -1,4 +1,4 @@
-class SonatoEffect extends HTMLElement{
+class SonataEffect extends HTMLElement{
     #sonataEffect = {}
 
     get sonatoEffect(){
@@ -29,4 +29,4 @@ class SonatoEffect extends HTMLElement{
         `
     }
 }
-customElements.define("sonataeffect", SonatoEffect)
+customElements.define("sonata-effect", SonataEffect)

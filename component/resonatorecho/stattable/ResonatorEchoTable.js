@@ -93,7 +93,7 @@ class ResonatorEchoTable extends HTMLElement{
                 <table>
                     <tr>
                         <th>
-                            <choice-resonatorecho></choice-resonatorecho>
+                            <resonatorecho-choice></resonatorecho-choice>
                         </th>
                     </tr>
                     <tr>

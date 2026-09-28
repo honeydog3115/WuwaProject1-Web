@@ -8,6 +8,7 @@ class EchoChoice extends HTMLElement{
     #sonataEffects = []
     #echos = []
     #rendering = false
+    #dialog = ""
 
     set sonataeffects(data){
         this.#sonataEffects = data
@@ -32,6 +33,34 @@ class EchoChoice extends HTMLElement{
     
     connectedCallback(){
         this.render()
+        this.#dialog = this.querySelector('dialog')
+        this.addEventListener('click', this.#handleDialogClose)
+    }
+
+    showDialog(){
+        if(this.#dialog && !this.#dialog.open){
+            this.#dialog.showModal()
+        }
+    }
+
+    closeDialog(){
+        if(this.#dialog && this.#dialog.open){
+            this.#dialog.close()
+        }
+    }
+
+    #handleDialogClose = (event) => {
+        const rect = this.#dialog.getBoundingClientRect()
+        const isClickOutside = (
+            event.clientX < rect.left ||
+            event.clientX > rect.right ||
+            event.clientY < rect.top ||
+            event.clientY > rect.bottom
+        );
+
+        if (isClickOutside) {
+            this.closeDialog();
+        }
     }
 
     render(){
@@ -41,22 +70,22 @@ class EchoChoice extends HTMLElement{
                 <echo-card></echo-card>
             `).join("")
             return `
-                <dialog class="width-80vw height-80vw">
-                    <div>
-                        <sonataeffect></sonataeffect>
-                    </div>
-                    <div>
-                        ${echoCard}
-                    </div>
-                </dialog>
+                <div>
+                    <sonata-effect></sonata-effect>
+                </div>
+                <div>
+                    ${echoCard}
+                </div>
             `}).join("")
 
         this.innerHTML = `
-            <div>
-                <search-componenet></search-componenet>
-                <filter-btn></filter-btn>
-                ${echoCardList}
-            </div>
+            <dialog class="width-80vw height-80vw">
+                <div>
+                    <search-componenet></search-componenet>
+                    <filter-btn></filter-btn>
+                    ${echoCardList}
+                </div>
+            </dialog>
         `
     }
 }

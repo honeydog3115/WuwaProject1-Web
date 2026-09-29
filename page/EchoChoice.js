@@ -35,6 +35,13 @@ class EchoChoice extends HTMLElement{
         this.render()
         this.#dialog = this.querySelector('dialog')
         this.addEventListener('click', this.#handleDialogClose)
+        this.#initData()
+    }
+
+    #initData = async () => {
+        const [echos] = await Promise.all([getEchos()])
+        this.#echos = echos
+        console.log(this.#echos)
     }
 
     showDialog(){
@@ -62,6 +69,8 @@ class EchoChoice extends HTMLElement{
             this.closeDialog();
         }
     }
+
+    
 
     render(){
         const echoCardList = this.#sonataEffects.map((sonataeffect)=>{

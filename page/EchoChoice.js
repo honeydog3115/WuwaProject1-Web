@@ -1,3 +1,4 @@
+import { getEchos } from "../api/echoApi.js"
 import "../component/FilterBtn.js"
 import "../component/SearchComponent.js"
 import "../component/echo/EchoCard.js"
@@ -33,7 +34,6 @@ class EchoChoice extends HTMLElement{
     
     connectedCallback(){
         this.render()
-        this.#dialog = this.querySelector('dialog')
         this.addEventListener('click', this.#handleDialogClose)
         this.#initData()
     }
@@ -41,7 +41,11 @@ class EchoChoice extends HTMLElement{
     #initData = async () => {
         const [echos] = await Promise.all([getEchos()])
         this.#echos = echos
-        console.log(this.#echos)
+        this.#sonataEffects = this.#echos.map((echo)=>{
+            const { id, name, imagePath } = echo
+            return { id, name, imagePath }
+        })
+        this.render()
     }
 
     showDialog(){
@@ -74,7 +78,8 @@ class EchoChoice extends HTMLElement{
 
     render(){
         const echoCardList = this.#sonataEffects.map((sonataeffect)=>{
-            const echos = this.#echos.filter(echo=>echo.sonataeffectId === sonataeffect.id)
+            const echos = this.#echos.find((echo)=>echo.id === sonataeffect.id).echos
+            console.log("echo", echos)
             const echoCard = echos.map((echo)=>`
                 <echo-card></echo-card>
             `).join("")
@@ -96,6 +101,22 @@ class EchoChoice extends HTMLElement{
                 </div>
             </dialog>
         `
+
+        this.#dialog = this.querySelector('dialog')
+        if(this.#echos.length > 0){
+            const sonataeffectElements = Array.from(this.querySelectorAll('sonata-effect'))
+            sonataeffectElements.map((sonataeffectElement, index)=>{
+                sonataeffectElement.sonataEffect = this.#sonataEffects[index]
+            })
+
+            const echoCardList = Array.from(this.querySelectorAll('echo-card'))
+            const echos = this.#echos.flatMap((echo)=>{
+                return echo.echos
+            })
+            echoCardList.map((echoCard, index) => {
+                echoCard.echo = echos[index]
+            })
+        }
     }
 }
 customElements.define("echo-choice", EchoChoice)

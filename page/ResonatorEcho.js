@@ -69,10 +69,12 @@ class ResonatorEcho extends HTMLElement{
             bubbles:true,
             composed: true
         })
-        const resonatorechoChoice = this.querySelector('resonatorecho-choice')
-        resonatorechoChoice.event = new CustomEvent('choiceClick', {
-            detail: { expected: resonatorechoChoice},
-            bubbles: true,
+        const resonatorechoChoices = Array.from(this.querySelectorAll('resonatorecho-choice'))
+        resonatorechoChoices.map((resonatorechoChoice)=>{
+            resonatorechoChoice.event = new CustomEvent('choiceClick', {
+                detail: { expected: resonatorechoChoice},
+                bubbles: true,
+            })
         })
     }
 
@@ -92,7 +94,7 @@ class ResonatorEcho extends HTMLElement{
             resonatorChoice.showDialog();
         }
 
-        if (event.detail.expected == this.querySelector('resonatorecho-choice')){
+        if (Array.from(this.querySelectorAll('resonatorecho-choice')).includes(event.detail.expected)){
             const echoChoice = this.querySelector('echo-choice')
             echoChoice.showDialog()
         }

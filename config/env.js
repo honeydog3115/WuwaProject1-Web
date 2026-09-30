@@ -4,6 +4,8 @@ const RESONATOR = import.meta.env.VITE_RESONATOR_IMAGE_URL
 const ATTRIBUTE = import.meta.env.VITE_ATTRIBUTE_IMAGE_URL
 const WEAPON = import.meta.env.VITE_WEAPON_IMAGE_URL
 const ICON = import.meta.env.VITE_ICON_IMAGE_URL
+const ECHO = import.meta.env.VITE_ECHO_IMAGE_URL
+const SONATAEFFECT = import.meta.env.VITE_SONATAEFFECT_IMAGE_URL
 
 const DEFAULT_ATTR_IMG = import.meta.env.VITE_DEFAULT_ATTRIBUTE_IMG
 const DEFAULT_WEAPON_IMG = import.meta.env.VITE_DEFAULT_WEAPON_IMG
@@ -18,3 +20,5 @@ export const WEAPON_IMAGE_URL = `${BASE_IMAGE_URL}${WEAPON}`
 export const DEFAULT_ATTR_IMG_URL = `${BASE_IMAGE_URL}${DEFAULT_ATTR_IMG}`
 export const DEFAULT_WEAPON_IMG_URL = `${BASE_IMAGE_URL}${DEFAULT_WEAPON_IMG}`
 export const ICON_IMAGE_URL = createImgUrl(ICON)
+export const ECHO_IMAGE_URL = createImgUrl(ECHO)
+export const SONATAEFFECT_IMAGE_URL = createImgUrl(SONATAEFFECT)

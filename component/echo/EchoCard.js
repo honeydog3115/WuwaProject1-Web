@@ -1,3 +1,5 @@
+import { ECHO_IMAGE_URL } from "../../config/env"
+
 class EchoCard extends HTMLElement{
     #echo = {}
 
@@ -21,7 +23,7 @@ class EchoCard extends HTMLElement{
         this.innerHTML = `
             <div class="echo-${id}">
                 <div>
-                    <img src="${imagePath}" alt="${name}의 이미지를 찾지 못했습니다.">
+                    <img src="${ECHO_IMAGE_URL}${imagePath}" alt="${name}의 ${ECHO_IMAGE_URL}${imagePath} 이미지를 찾지 못했습니다.">
                 </div>
                 <div>
                     <span>${name}</span>

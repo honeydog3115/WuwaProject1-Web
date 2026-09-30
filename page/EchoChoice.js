@@ -79,7 +79,6 @@ class EchoChoice extends HTMLElement{
     render(){
         const echoCardList = this.#sonataEffects.map((sonataeffect)=>{
             const echos = this.#echos.find((echo)=>echo.id === sonataeffect.id).echos
-            console.log("echo", echos)
             const echoCard = echos.map((echo)=>`
                 <echo-card></echo-card>
             `).join("")

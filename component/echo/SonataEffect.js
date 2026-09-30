@@ -1,3 +1,5 @@
+import { SONATAEFFECT_IMAGE_URL } from "../../config/env"
+
 class SonataEffect extends HTMLElement{
     #sonataEffect = {}
 
@@ -7,6 +9,7 @@ class SonataEffect extends HTMLElement{
 
     set sonataEffect(data){
         this.#sonataEffect = data
+        this.render()
     }
 
     connectedCallBack(){
@@ -20,7 +23,7 @@ class SonataEffect extends HTMLElement{
         this.innerHTML = `
             <div class="sonataeffect-${id}">
                 <div>
-                    <img src="${imagePath}" alt="${name}의 이미지를 찾지 못했습니다.">
+                    <img src="${SONATAEFFECT_IMAGE_URL}${imagePath}" alt="${name}의 이미지를 찾지 못했습니다.">
                 </div>
                 <div>
                     <span>${name}</span>

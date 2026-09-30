@@ -5,7 +5,7 @@ class SonataEffect extends HTMLElement{
         return this.#sonataEffect
     }
 
-    set sonatoEffect(data){
+    set sonataEffect(data){
         this.#sonataEffect = data
     }
 

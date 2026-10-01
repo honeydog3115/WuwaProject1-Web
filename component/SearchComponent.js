@@ -41,6 +41,13 @@ class SearchComponent extends HTMLElement{
         `
         const form = this.querySelector('form');
         form.onsubmit = onsubmit;
+        const inputElement = this.querySelector('input')
+        inputElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                onsubmit()
+            }
+        });
     }
 }
 customElements.define("search-component",SearchComponent)

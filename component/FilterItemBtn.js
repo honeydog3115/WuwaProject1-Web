@@ -1,10 +1,6 @@
 import { ATTRIBUTE_IMAGE_URL, WEAPON_IMAGE_URL } from "../config/env"
 
 class FilterItemBtn extends HTMLElement{
-    // static get observedAttributes(){
-    //     return ['data-target']
-    // }
-
     #filterInfo = {id: 0, name: "", imagePath: ""}
     #imageMap = {
         "attribute-filter": ATTRIBUTE_IMAGE_URL,
@@ -17,10 +13,6 @@ class FilterItemBtn extends HTMLElement{
 
     set filterInfo(data){
         this.#filterInfo = data || {}
-        // const jsonString = JSON.stringify(this.#filterInfo)
-        // // 다를 때만 setAttribute를 호출해서 setAttribute와 setter가 서로 무한 호출하는 것을 막음
-        // if (this.getAttribute("data-target") !== jsonString)
-        //     this.setAttribute("data-target", jsonString)
         this.render()
     }
 
@@ -35,12 +27,6 @@ class FilterItemBtn extends HTMLElement{
             bubbles : true
         }))
     }
-
-    // attributeChangedCallback(name, oldValue, newValue){
-    //     if(oldValue !== newValue && name == "data-target"){
-    //         this.filterInfo = JSON.parse(newValue || {})
-    //     }
-    // }
 
     render(){
         const imageUrl = this.#imageMap[this.parentElement.className] || ""

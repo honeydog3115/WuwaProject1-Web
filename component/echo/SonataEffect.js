@@ -3,7 +3,7 @@ import { SONATAEFFECT_IMAGE_URL } from "../../config/env"
 class SonataEffect extends HTMLElement{
     #sonataEffect = {}
 
-    get sonatoEffect(){
+    get sonataEffect(){
         return this.#sonataEffect
     }
 
@@ -12,8 +12,16 @@ class SonataEffect extends HTMLElement{
         this.render()
     }
 
-    connectedCallBack(){
+    connectedCallback(){
         this.render()
+        this.addEventListener('click', this.#clickEvent)
+    }
+
+    #clickEvent = (event) => {
+        event.preventDefault();
+        this.dispatchEvent(new CustomEvent('click-filter',{
+            bubbles : true
+        }))
     }
 
     render(){
@@ -21,7 +29,7 @@ class SonataEffect extends HTMLElement{
         const name = this.#sonataEffect.name ?? ""
         const imagePath = this.#sonataEffect.imagePath ?? ""
         this.innerHTML = `
-            <div class="sonataeffect-${id}">
+            <div class="sonataEffect-${id}">
                 <div>
                     <img src="${SONATAEFFECT_IMAGE_URL}${imagePath}" alt="${name}의 이미지를 찾지 못했습니다.">
                 </div>

@@ -69,24 +69,6 @@ class ResonatorChoice extends HTMLElement {
         this.render()
     }
 
-    // #getResonators = async()=>{
-    //     const resonators = await getResonators()
-    //     this.#resonators = resonators
-    //     this.render()
-    // }
-    
-    // #getAttributes = async()=>{
-    //     const attributes = await getAttributes()
-    //     this.#attributes = attributes
-    //     this.render()
-    // }
-
-    // #getWeapons = async() => {
-    //     const weapons = await getWeapons()
-    //     this.#weapons = weapons
-    //     this.render()
-    // }
-
     #handleDialogClose = (event) => {
         const rect = this.#dialog.getBoundingClientRect()
         const isClickOutside = (
@@ -118,14 +100,15 @@ class ResonatorChoice extends HTMLElement {
     }
 
     #clickFilter = (event) => {
-        event.preventDefault();
-        const filter =  event.target.closest("[class$=-filter]")
-        this.#filterName = filter.className
-        const resonators = this.#resonators
-        this.#filteredResonators = resonators
-        this.#appliedFilter[this.#filterName] = Array.isArray(event.target.filterInfo.id) ? [...event.target.filterInfo.id] : [event.target.filterInfo.id]
-
-        this.#resonatorFilter()
+        if(event.target.closest('resonator-choice')){
+            const filter =  event.target.closest("[class$=-filter]")
+            this.#filterName = filter.className
+            const resonators = this.#resonators
+            this.#filteredResonators = resonators
+            this.#appliedFilter[this.#filterName] = Array.isArray(event.target.filterInfo.id) ? [...event.target.filterInfo.id] : [event.target.filterInfo.id]
+    
+            this.#resonatorFilter()
+        }
     }
 
     #onSubmit = (event) => {

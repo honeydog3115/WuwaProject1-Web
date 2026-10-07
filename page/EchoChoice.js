@@ -81,7 +81,13 @@ class EchoChoice extends HTMLElement{
             }
             
             if(event.target.parentElement.classList.contains('sonataEffect-filter')){
-                this.#filterStat.sonataEffect = [event.target.sonataEffect.id]
+                if([event.target.sonataEffect.id].every((id, index) => id === this.#filterStat.sonataEffect[index])
+                && this.#filterStat.sonataEffect.length === 1){
+                    this.#filterStat.sonataEffect = this.#sonataEffects.map((_, index)=>index+1)
+                }
+                else{
+                    this.#filterStat.sonataEffect = [event.target.sonataEffect.id]
+                }
             }
         }
 

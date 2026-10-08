@@ -33,7 +33,7 @@ class EchoCard extends HTMLElement{
         const name = this.#echo.name ?? "기본 에코"
         const id = this.#echo.id ?? 0
         this.innerHTML = `
-            <div class="echo-${id}">
+            <div>
                 <div>
                     <img src="${imagePath}" alt="${name}의 ${imagePath} 이미지를 찾지 못했습니다.">
                 </div>

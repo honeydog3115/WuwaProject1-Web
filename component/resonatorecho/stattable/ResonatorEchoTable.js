@@ -9,14 +9,19 @@ class ResonatorEchoTable extends HTMLElement{
     #ROW_NUM = 5;
     #unsubscribe = null
     #subStatInfos = []
+    #subStats = [{}, {}, {}, {}, {}]
 
-    #substatRows = Array(this.#ROW_NUM).fill(0).map(() => `
-        <tr class="subStat-row">
+    #substatRows = Array(this.#ROW_NUM).fill(0).map((_, index) => `
+        <tr class="subStat-row-${index}">
             <td><substat-name></substat-name></td>
             <td><substat-value></substat-value></td>
         </tr>
     `).join('');    
     
+    get subStats() {
+        return this.#subStats
+    }
+
     connectedCallback(){
         this.render()
 
@@ -59,7 +64,7 @@ class ResonatorEchoTable extends HTMLElement{
         if(event.target.tagName === 'LI' && event.target.closest('.subStatName')){
             const target = event.target
             const subStatInfo = this.#subStatInfos.find(subStatInfo => subStatInfo.id === Number(target.dataset.id))
-            const subStatRow = target.closest('.subStat-row')
+            const subStatRow = target.closest('[class^=subStat-row]')
             const subStatValue = subStatRow.querySelector('subStat-value')
             subStatValue.subStatValues = subStatInfo.subStatInfos
         }
@@ -74,12 +79,22 @@ class ResonatorEchoTable extends HTMLElement{
             const subStatInfos = this.#subStatInfos.find(subStatInfo => subStatInfo.subStatInfos.some(subStatInfo => subStatInfo.id === Number(subStatValueId))).subStatInfos
             const data = {...subStatInfos[index], index: index, length: subStatInfos.length}
             console.log(data)
+            
+            const tr = event.target.closest('[class^=subStat-row-]')
+            const subStatsIndex = Number(tr.classList[0].replace(/\D/g, ''))
+            const { id, SubStatId, ...restProps } = subStatInfos[index];
+            this.#subStats[subStatsIndex] = { 
+                ...restProps,
+                subStatId : SubStatId,
+                subStatInfoId : id,
+            }
+
             const parentComponent = this.closest("resonatorecho-create")
             const chanceTable = parentComponent.nextElementSibling;
             
-            const chanceValue = chanceTable.querySelector("chance-value")
+            const chanceValue = chanceTable.querySelectorAll("chance-value")[subStatsIndex]
             console.log(chanceValue)
-            const chanceGauge = chanceTable.querySelector("chance-gauge")
+            const chanceGauge = chanceTable.querySelectorAll("chance-gauge")[subStatsIndex]
             console.log(chanceGauge)
             chanceValue.value = {...subStatInfos[index]}
             chanceGauge.column = subStatInfos.length

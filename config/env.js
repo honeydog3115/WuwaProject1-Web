@@ -9,6 +9,7 @@ const SONATAEFFECT = import.meta.env.VITE_SONATAEFFECT_IMAGE_URL
 
 const DEFAULT_ATTR_IMG = import.meta.env.VITE_DEFAULT_ATTRIBUTE_IMG
 const DEFAULT_WEAPON_IMG = import.meta.env.VITE_DEFAULT_WEAPON_IMG
+const DEFAULT_ECHO_IMG = import.meta.env.VITE_DEFAULT_ECHO_IMG
 
 const createImgUrl = (dir) => {
     return `${BASE_IMAGE_URL}${dir}`
@@ -19,6 +20,7 @@ export const ATTRIBUTE_IMAGE_URL = `${BASE_IMAGE_URL}${ATTRIBUTE}`
 export const WEAPON_IMAGE_URL = `${BASE_IMAGE_URL}${WEAPON}`
 export const DEFAULT_ATTR_IMG_URL = `${BASE_IMAGE_URL}${DEFAULT_ATTR_IMG}`
 export const DEFAULT_WEAPON_IMG_URL = `${BASE_IMAGE_URL}${DEFAULT_WEAPON_IMG}`
+export const DEFAULT_ECHO_IMG_URL = createImgUrl(DEFAULT_ECHO_IMG)
 export const ICON_IMAGE_URL = createImgUrl(ICON)
 export const ECHO_IMAGE_URL = createImgUrl(ECHO)
 export const SONATAEFFECT_IMAGE_URL = createImgUrl(SONATAEFFECT)

@@ -1,4 +1,4 @@
-class ResonatorechoScore extends HTMLElement{
+class ResonatorEchoScore extends HTMLElement{
     #score = -1
 
     get score(){
@@ -7,6 +7,15 @@ class ResonatorechoScore extends HTMLElement{
 
     set score(data){
         this.#score = data
+    }
+
+    connectedCallback(){
+        this.render()
+    }
+
+    #btnClickEvent = (event) => {
+        event.preventDefault();
+        
     }
 
     render(){
@@ -18,9 +27,12 @@ class ResonatorechoScore extends HTMLElement{
                 <div>
                     ${this.#score}
                 </div>
+                <div>
+                    <button onclick="">계산하기</button>
+                <div>
             </div>
         `
     }
 }
 
-customElements.define("resonatorecho-score", ResonatorechoScore)
+customElements.define("resonatorecho-score", ResonatorEchoScore)

@@ -1,4 +1,4 @@
-import { ECHO_IMAGE_URL } from "../../config/env"
+import { DEFAULT_ECHO_IMG_URL, ECHO_IMAGE_URL } from "../../config/env"
 
 class EchoCard extends HTMLElement{
     #echo = {}
@@ -17,8 +17,8 @@ class EchoCard extends HTMLElement{
     }
 
     render(){
-        const imagePath = this.#echo.imagePath ?? ""
-        const name = this.#echo.name ?? ""
+        const imagePath = this.#echo.imagePath ?? DEFAULT_ECHO_IMG_URL
+        const name = this.#echo.name ?? "기본 에코"
         const id = this.#echo.id ?? 0
         this.innerHTML = `
             <div class="echo-${id}">

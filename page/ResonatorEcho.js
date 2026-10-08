@@ -18,6 +18,7 @@ class ResonatorEcho extends HTMLElement{
     #subStatInfos = []
     #attributes = []
     #subscribers = new Set();
+    #targetEchoCard = {}
 
     set resonatorId(data){
         if(this.#resonatorId !== data){
@@ -41,9 +42,12 @@ class ResonatorEcho extends HTMLElement{
         this.addEventListener('choice-echo', this.#choiceEcho)
         this.resonatorId = 1
 
-        const resonatorEcho = Array(5).fill(0).map(()=>`
-            <resonatorecho-create></resonatorecho-create>
-            <chance-table></chance-table>
+        const resonatorEcho = Array(5).fill(0).map((_, index)=>`
+            <div class="echo-${index}">
+                <echo-card></echo-card>
+                <resonatorecho-create></resonatorecho-create>
+                <chance-table></chance-table>
+            </div>
         `).join("")
     
         this.innerHTML = `
@@ -95,6 +99,10 @@ class ResonatorEcho extends HTMLElement{
         }
 
         if (Array.from(this.querySelectorAll('resonatorecho-choice')).includes(event.detail.expected)){
+            const resonatorechoChoice = event.detail.expected
+            const parent = resonatorechoChoice.closest('[class^=echo-]')
+            const echoCard = parent.querySelector('echo-card')
+            this.#targetEchoCard = echoCard
             const echoChoice = this.querySelector('echo-choice')
             echoChoice.showDialog()
         }
@@ -138,6 +146,10 @@ class ResonatorEcho extends HTMLElement{
 
     #choiceEcho = (event) => {
         event.preventDefault()
+        const echo = event.detail.echo
+        this.#targetEchoCard.echo = echo
+        const echoChoice = this.querySelector('echo-choice')
+        echoChoice.closeDialog()
     }
 
     render(){

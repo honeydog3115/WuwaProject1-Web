@@ -7,15 +7,20 @@ class ResonatorEchoScore extends HTMLElement{
 
     set score(data){
         this.#score = data
+        this.render()
     }
 
     connectedCallback(){
         this.render()
+        const btn = this.querySelector('button')
+        btn.addEventListener('click', this.#btnClickEvent)
     }
 
     #btnClickEvent = (event) => {
         event.preventDefault();
-        
+        this.dispatchEvent(new CustomEvent('echoscore-calcBtn-click', {
+            bubbles: true,
+        }))
     }
 
     render(){
@@ -28,7 +33,7 @@ class ResonatorEchoScore extends HTMLElement{
                     ${this.#score}
                 </div>
                 <div>
-                    <button onclick="">계산하기</button>
+                    <button>계산하기</button>
                 <div>
             </div>
         `

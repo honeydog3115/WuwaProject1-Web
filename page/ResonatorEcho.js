@@ -5,6 +5,7 @@ import '../component/resonatorecho/ResonatorEchoCreate.js';
 import '../component/resonatorecho/ResonatorEchoScore.js';
 import "../component/resonatorecho/chancetable/ChanceTable.js";
 import "../page/EchoChoice.js";
+import "../page/PresetSave.js";
 import "../page/ResonatorChoice.js";
 
 import { getAttributes } from '../api/attributeApi.js';
@@ -55,7 +56,7 @@ class ResonatorEcho extends HTMLElement{
     
         this.innerHTML = `
             <div>
-                <button>저장하기</button>
+                <button class='preset-save'>저장하기</button>
                 <resonator-choice-btn></resonator-choice-btn>
                 <resonator-img></resonator-img>
                 <resonator-validstat></resonator-validstat>
@@ -70,6 +71,9 @@ class ResonatorEcho extends HTMLElement{
             <div>
                 <echo-choice></echo-choice>
             <div>
+            <div>
+                <preset-save></preset-save>
+            </div>
         `
         const resonatorChoiceBtn = this.querySelector("resonator-choice-btn")
         resonatorChoiceBtn.event = new CustomEvent('choiceClick', {
@@ -84,6 +88,15 @@ class ResonatorEcho extends HTMLElement{
                 bubbles: true,
             })
         })
+        const presetBtn = this.querySelector('.preset-save')
+        presetBtn.addEventListener('click', () => {
+                        presetBtn.dispatchEvent(new CustomEvent('choiceClick', 
+                            {
+                                detail : { expected: presetBtn },
+                                bubbles : true,
+                                composed : true,
+                            }))
+                        }) 
         testSetting(this)
     }
 
@@ -110,6 +123,11 @@ class ResonatorEcho extends HTMLElement{
             this.#targetEchoCard = echoCard
             const echoChoice = this.querySelector('echo-choice')
             echoChoice.showDialog()
+        }
+
+        if (event.detail.expected == this.querySelector('.preset-save')){
+            const presetSave = this.querySelector('preset-save')
+            presetSave.showDialog()
         }
 
     }

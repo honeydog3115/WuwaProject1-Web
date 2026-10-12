@@ -12,6 +12,7 @@ import { getResonatorDetail } from '../api/resonatorApi.js';
 import { calcScore } from '../api/resonatorEchoApi.js';
 import { getSubStatInfos } from '../api/subStatApi.js';
 import { subStatInfosContext } from '../context/resonatorEchoContext.js';
+import { testSetting } from '../test/subStatSetting.js';
 
 class ResonatorEcho extends HTMLElement{
     #resonatorId = 0
@@ -54,6 +55,7 @@ class ResonatorEcho extends HTMLElement{
     
         this.innerHTML = `
             <div>
+                <button>저장하기</button>
                 <resonator-choice-btn></resonator-choice-btn>
                 <resonator-img></resonator-img>
                 <resonator-validstat></resonator-validstat>
@@ -82,6 +84,7 @@ class ResonatorEcho extends HTMLElement{
                 bubbles: true,
             })
         })
+        testSetting(this)
     }
 
     disconnectedCallback(){
@@ -122,8 +125,10 @@ class ResonatorEcho extends HTMLElement{
                 this.#subscribers.add(callback)
             }
 
-            const data = await getSubStatInfos()
-            this.#subStatInfos = data
+            if (this.#subStatInfos.length === 0){
+                const data = await getSubStatInfos()
+                this.#subStatInfos = data
+            }
 
             callback(this.#subStatInfos, unsubscribe)
         }

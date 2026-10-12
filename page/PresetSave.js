@@ -9,6 +9,9 @@ class PresetSave extends HTMLElement{
 
     connectedCallback(){
         this.render()
+        
+        this.addEventListener('click', this.#handleDialogClose)
+
         const form = this.querySelector('form')
         const input = this.querySelector('input')
         input.addEventListener('keydown', (e) => {

@@ -9,6 +9,7 @@ import "../page/PresetSave.js";
 import "../page/ResonatorChoice.js";
 
 import { getAttributes } from '../api/attributeApi.js';
+import { savePreset } from '../api/presetApi.js';
 import { getResonatorDetail } from '../api/resonatorApi.js';
 import { calcScore } from '../api/resonatorEchoApi.js';
 import { getSubStatInfos } from '../api/subStatApi.js';
@@ -96,7 +97,9 @@ class ResonatorEcho extends HTMLElement{
                                 bubbles : true,
                                 composed : true,
                             }))
-                        }) 
+                        })
+        const presetSave = this.querySelector('preset-save')
+        presetSave.submitFunction = this.#savePreset
         testSetting(this)
     }
 
@@ -161,9 +164,7 @@ class ResonatorEcho extends HTMLElement{
 
     #choiceResonator = async (event) => {
         event.preventDefault();
-        console.log(event.detail)
         this.#resonatorDetail = await getResonatorDetail(event.detail.resonator.id)
-        console.log("디테일", this.#resonatorDetail)
         this.render()
         const resonatorChoice = this.querySelector('resonator-choice')
         resonatorChoice.closeDialog();
@@ -205,12 +206,37 @@ class ResonatorEcho extends HTMLElement{
         resonatorechoScore.score = score
     }
 
+    #savePreset = (inputElement) => {
+        const resonatorEchos = this.querySelectorAll('[class^=resonatorecho-]')
+        const resonatorEchoInfoDtos = Array.from(resonatorEchos).map((resonatorEcho, index) => {
+            const echoCard = resonatorEcho.querySelector('echo-card')
+            const resoantorEchoTables = resonatorEcho.querySelectorAll('resonatorecho-table')
+            const echoSubStats = Array.from(resoantorEchoTables).flatMap((resoantorEchoTable, index) => {
+                return resoantorEchoTable.subStats
+            })
+            return {
+                "echoId" : echoCard.echo.id ?? 1,
+                "mainStatId" : 1,
+                "echoSubStats" : echoSubStats,
+            }
+        })
+        const headers = { 'Content-Type' : 'application/json' }
+        const body = {
+            "userId" : 1,
+            "name" : inputElement.value,
+            "resonatorId" : this.#resonatorId,
+            "score" : this.querySelector('resonatorecho-score').score,
+            "bookmark" : false,
+            "echosInfo" : resonatorEchoInfoDtos
+        }
+        savePreset(headers, body)
+    }
+
     render(){
         const validStatTable = this.querySelector("resonator-validstat")
         const resonatorImg = this.querySelector("resonator-img")
 
         if(Object.keys(this.#resonatorDetail).length > 0){
-            console.log(this.#resonatorDetail)
             validStatTable.validStats = this.#resonatorDetail?.validStats
             const resonatorImgProp = {
                 attributeImg : this.#resonatorDetail.attribute.imagePath,

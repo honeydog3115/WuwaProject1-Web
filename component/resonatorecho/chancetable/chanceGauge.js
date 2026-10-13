@@ -36,10 +36,6 @@ class ChanceGauge extends HTMLElement{
                 ${gauge}
             </div>
         `
-        const targetDiv = this.querySelector(`[data-id="${this.#index}"]`)
-        if (targetDiv){
-            console.log(targetDiv)
-        }
     }
 }
 

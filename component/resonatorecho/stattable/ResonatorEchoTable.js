@@ -34,7 +34,6 @@ class ResonatorEchoTable extends HTMLElement{
                 callback: (subStatInfos, unsubscribe)=>{
                     this.#unsubscribe = unsubscribe
                     this.#subStatInfos = subStatInfos
-                    console.log(subStatInfos)
 
                     const subStatNames = subStatInfos.map((subStatInfo)=>{
                         const {id, name: value} = subStatInfo
@@ -78,7 +77,6 @@ class ResonatorEchoTable extends HTMLElement{
             const index = Number(target.dataset.index)
             const subStatInfos = this.#subStatInfos.find(subStatInfo => subStatInfo.subStatInfos.some(subStatInfo => subStatInfo.id === Number(subStatValueId))).subStatInfos
             const data = {...subStatInfos[index], index: index, length: subStatInfos.length}
-            console.log(data)
             
             const tr = event.target.closest('[class^=subStat-row-]')
             const subStatsIndex = Number(tr.classList[0].replace(/\D/g, ''))
@@ -93,9 +91,7 @@ class ResonatorEchoTable extends HTMLElement{
             const chanceTable = parentComponent.nextElementSibling;
             
             const chanceValue = chanceTable.querySelectorAll("chance-value")[subStatsIndex]
-            console.log(chanceValue)
             const chanceGauge = chanceTable.querySelectorAll("chance-gauge")[subStatsIndex]
-            console.log(chanceGauge)
             chanceValue.value = {...subStatInfos[index]}
             chanceGauge.column = subStatInfos.length
             chanceGauge.index = index

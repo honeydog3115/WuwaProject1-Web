@@ -12,12 +12,11 @@ class PresetSave extends HTMLElement{
         
         this.addEventListener('click', this.#handleDialogClose)
 
-        const form = this.querySelector('form')
         const input = this.querySelector('input')
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                form.onsubmit()
+                this.#submitFunction(input)
             }
         });
 
@@ -63,10 +62,6 @@ class PresetSave extends HTMLElement{
                     </dialog>
                 </div>
             `
-        }
-
-        if(this.#submitFunction !== null){
-            form.onsubmit = this.#submitFunction
         }
 
     }

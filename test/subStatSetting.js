@@ -40,7 +40,6 @@ export const testSetting = async (element) => {
             content[index].click()
         })
     })
-    console.log("에코", echo[26])
 }
 
 function waitForLiLoaded(element, targetCount = 13) {

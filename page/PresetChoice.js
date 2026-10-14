@@ -13,6 +13,7 @@ class PresetChoice extends HTMLElement{
     connectedCallback(){
         this.render()
         this.#initData()
+        this.addEventListener('render-presetChoice', this.render)
     }
 
     #initData = async () => {
@@ -34,19 +35,27 @@ class PresetChoice extends HTMLElement{
                 </div>
             `
         }
-
-        const presetListContainer = this.querySelector('.preset-list')
-        const presetList = this.#presets.length !== 0
-        ? this.#presets.map((preset)=>`
-            <preset-btn></preset-btn>
-        `).join("") : ""
-        presetListContainer.innerHTML = presetList
-        
         if (this.#presets.length > 0) {
-            const presetBtns = this.querySelectorAll('preset-btn')
-            Array.from(presetBtns).forEach((presetBtn, index) => {
+            const presetListContainer = this.querySelector('.preset-list')
+            const presetList = this.#presets.length !== 0
+            ? this.#presets.map((preset)=>{
+                return `
+                    <preset-btn data-bookmark="${preset.bookmark}"></preset-btn>
+                `
+            }).join("") : ""
+            presetListContainer.innerHTML = presetList
+            Array.from(this.querySelectorAll('preset-btn')).forEach((presetBtn, index) => {
                 presetBtn.preset = this.#presets[index]
             })
+
+            const presetBtns_bookmarkOn = this.querySelectorAll('[data-bookmark="true"]')
+            const presetBtns_bookmarkOff = this.querySelectorAll('[data-bookmark="false"]')
+            const sortedPresetBtns_bookmakrOn = Array.from(presetBtns_bookmarkOn).toSorted((a, b) => a.preset.id - b.preset.id)
+            const sortedPresetBtns_bookmakrOff = Array.from(presetBtns_bookmarkOff).toSorted((a, b) => a.preset.id - b.preset.id)
+            
+            const sortedPresetBtns = [...sortedPresetBtns_bookmakrOn, ...sortedPresetBtns_bookmakrOff]
+
+            presetListContainer.replaceChildren(...sortedPresetBtns)
         }
     }
 }

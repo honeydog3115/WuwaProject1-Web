@@ -1,33 +1,53 @@
+import { ICON_IMAGE_URL } from "../../config/env"
+
+const BOOKMARKON_IMAGE = "bookmarkOn.png"
+const BOOKMARKOFF_IMAGE = "bookmarkOff.png"
 class PresetBtn extends HTMLElement{
-    #bookmark = false
-    #bookmarkOn = "imagePath/On"
-    #bookmarkOff = "imagePath/Off"
     #preset = {id: 0, name: "", bookmark: false}
 
     get preset(){
         return this.#preset
     }
 
-    set preset({id: id, name: name}){
-        this.#preset.id = id ? id : 0 
-        this.#preset.name = name ? name : ""
+    set preset(data){
+        this.#preset = data
         this.render()
     }
 
-    connectedCallBack(){
+    connectedCallback(){
         this.render()
+        this.addEventListener('click', this.#clickBookmark)
+    }
+
+    #clickBookmark = (event) => {
+        const imgElement = this.querySelector('img')
+        if(event.target === imgElement){
+            if(this.#preset.bookmark){
+                this.#preset.bookmark = false
+                imgElement.src = ICON_IMAGE_URL + BOOKMARKOFF_IMAGE
+            }
+            else{
+                this.#preset.bookmark = true
+                imgElement.src = ICON_IMAGE_URL + BOOKMARKON_IMAGE
+            }
+        }
+
+        this.dispatchEvent(new CustomEvent('render-presetChoice',{
+            bubbles: true
+        }))
     }
 
     render() {
-        const bookmarkImage = this.#bookmark ? this.#bookmarkOn:this.#bookmarkOff
+        const bookmarkImage = this.#preset.bookmark ? BOOKMARKON_IMAGE:BOOKMARKOFF_IMAGE
         const presetName = this.#preset.name
+
         this.innerHTML = `
             <div>
                 <button>
                     <span>
                         ${presetName}
                     </span>
-                    <img src="${bookmarkImage}">
+                    <img src="${ICON_IMAGE_URL}${bookmarkImage}">
                 </button>
             </div>
         `

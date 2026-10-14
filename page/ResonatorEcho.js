@@ -164,7 +164,9 @@ class ResonatorEcho extends HTMLElement{
 
     #choiceResonator = async (event) => {
         event.preventDefault();
-        this.#resonatorDetail = await getResonatorDetail(event.detail.resonator.id)
+        const resonatorId = event.detail.resonator.id
+        this.#resonatorDetail = await getResonatorDetail(resonatorId)
+        this.#resonatorId = resonatorId
         this.render()
         const resonatorChoice = this.querySelector('resonator-choice')
         resonatorChoice.closeDialog();

@@ -2,7 +2,7 @@ class PresetBtn extends HTMLElement{
     #bookmark = false
     #bookmarkOn = "imagePath/On"
     #bookmarkOff = "imagePath/Off"
-    #preset = {id: 0, name: ""}
+    #preset = {id: 0, name: "", bookmark: false}
 
     get preset(){
         return this.#preset

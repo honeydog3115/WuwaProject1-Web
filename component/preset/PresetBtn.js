@@ -16,7 +16,9 @@ class PresetBtn extends HTMLElement{
 
     connectedCallback(){
         this.render()
-        this.addEventListener('click', this.#clickBookmark)
+        const boomark = this.querySelector('img')
+        boomark.addEventListener('click', this.#clickBookmark)
+        this.addEventListener('click', this.#clickPreset)
     }
 
     #clickBookmark = (event) => {
@@ -33,6 +35,13 @@ class PresetBtn extends HTMLElement{
         }
 
         this.dispatchEvent(new CustomEvent('render-presetChoice',{
+            bubbles: true
+        }))
+    }
+
+    #clickPreset() {
+        this.dispatchEvent(new CustomEvent('preset-loading', {
+            detail: { preset : this.#preset },
             bubbles: true
         }))
     }

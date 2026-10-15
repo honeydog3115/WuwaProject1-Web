@@ -9,7 +9,7 @@ import "../page/PresetSave.js";
 import "../page/ResonatorChoice.js";
 
 import { getAttributes } from '../api/attributeApi.js';
-import { savePreset } from '../api/presetApi.js';
+import { getPreset, savePreset } from '../api/presetApi.js';
 import { getResonatorDetail } from '../api/resonatorApi.js';
 import { calcScore } from '../api/resonatorEchoApi.js';
 import { getSubStatInfos } from '../api/subStatApi.js';
@@ -45,6 +45,7 @@ class ResonatorEcho extends HTMLElement{
         this.addEventListener('choice-resonator', this.#choiceResonator)
         this.addEventListener('choice-echo', this.#choiceEcho)
         this.addEventListener('echoscore-calcBtn-click', this.#calcEchoScore)
+        document.addEventListener('preset-loading', this.#presetLoading)
         this.resonatorId = 1
 
         const resonatorEcho = Array(5).fill(0).map((_, index)=>`
@@ -232,6 +233,42 @@ class ResonatorEcho extends HTMLElement{
             "echosInfo" : resonatorEchoInfoDtos
         }
         savePreset(headers, body)
+    }
+
+    #presetLoading = async (event) => {
+        const presetId = event.detail.preset.id
+        const preset = await getPreset(presetId)
+        console.log(preset)
+
+        this.resonatorDetail = preset.resonatorDetailDto
+        
+        const resonatorEchos = this.querySelectorAll('[class^=resonatorecho-]')
+        Array.from(resonatorEchos).forEach((resonatorEcho, index) => {
+            const echocard = resonatorEcho.querySelector('echo-card')
+            const resonatorEchoInfo = preset.echoDetailDtos[index]
+            const echo = resonatorEchoInfo.echo
+            const subStatDetail = resonatorEchoInfo.subStatDetailDtos
+            echocard.echo = echo
+
+            const resonatorEchoTable = resonatorEcho.querySelector('resonatorecho-table')
+            const subStatNames =  resonatorEchoTable.querySelectorAll('substat-name')
+            const subStatValues =  resonatorEchoTable.querySelectorAll('substat-value')
+
+            Array.from(subStatNames).forEach((subStatName, index) => {
+                const list = subStatName.querySelectorAll('li')
+                const target = Array.from(list).find((li) => li.textContent === subStatDetail[index].subStatName)
+                target?.click()
+            })
+            
+            Array.from(subStatValues).forEach((subStatValue, index) => {
+                const list = subStatValue.querySelectorAll('li')
+                const target = Array.from(list).find((li) => li.textContent === subStatDetail[index].subStatValue)
+                target?.click()
+            })
+        })
+        
+        const resonatorEchoScore = this.querySelector('resonatorecho-score')
+        resonatorEchoScore.score = preset.totalScore
     }
 
     render(){

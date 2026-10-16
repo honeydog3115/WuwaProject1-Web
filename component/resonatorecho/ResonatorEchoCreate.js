@@ -5,11 +5,13 @@ class ResonatorEchoCreate extends HTMLElement{
         this.render()
 
         const echoDetect_Btn = this.querySelector('.echo-detect')
-        echoDetect_Btn.addEventListener('click', this.dispatchEvent(
-            new CustomEvent('click-echoDetect', {
-                bubbles: true
-            })
-        ))
+        echoDetect_Btn.addEventListener('click',() => {
+            this.dispatchEvent(
+                new CustomEvent('click-echoDetect', {
+                    bubbles: true
+                })
+            )
+        })
     }
 
     render(){

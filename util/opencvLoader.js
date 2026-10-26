@@ -1,38 +1,52 @@
 let cvPromise = null;
 
-export function loadOpenCV(src = 'https://docs.opencv.org/4.13.0/opencv.js') {
-    if (cvPromise) return cvPromise;           // 이미 로딩 중이거나 완료됐으면 재사용
+export const loadOpenCV = (src = 'https://docs.opencv.org/4.13.0/opencv.js') => {
+    if (cvPromise) return cvPromise;
 
     cvPromise = new Promise((resolve, reject) => {
-        // 다른 곳에서 이미 로드해 둔 경우
-        if (window.cv?.Mat) return resolve(window.cv);
+        // 1. 이미 Mat이 사용 가능한 상태면 즉시 반환
+        if (window.cv?.Mat) {
+            return resolve(window.cv);
+        }
 
         const script = document.createElement('script');
         script.src = src;
         script.async = true;
+        script.type = 'text/javascript';
 
-        script.onload = async () => {
-            let cv = window.cv;
+        script.onload = () => {
+            const cv = window.cv;
 
-            // 빌드에 따라 cv가 Promise로 노출되는 경우가 있음 (4.x 일부 빌드)
-            if (cv instanceof Promise) {
-                cv = await cv;
+            if (!cv) {
+                return reject(new Error('window.cv 객체를 찾을 수 없습니다.'));
             }
 
-            if (cv.Mat) {
-                resolve(cv);                          // 이미 초기화 완료
+            // cv.then이 있는 경우 (Thenable)
+            // resolve(cv) 대신 then 콜백 안에서 cv.then을 정리하거나 인스턴스를 전달합니다.
+            // 빌드 방식에 따른 조건 분기. if 가 가장 최신의 빌드 방식
+            if (typeof cv.then === 'function') {
+                cv.then((instance) => {
+                    // Promise 무한 루프 방지를 위해 then 메서드 참조를 끊어줍니다.
+                    delete instance.then;
+                    resolve(instance);
+                });
+            } else if (cv.Mat) {
+                resolve(cv);
             } else {
-                cv.onRuntimeInitialized = () => resolve(cv);   // WASM 초기화 대기
+                cv.onRuntimeInitialized = () => {
+                    delete cv.then;
+                    resolve(cv);
+                };
             }
         };
 
         script.onerror = () => {
-            cvPromise = null;                       // 실패하면 재시도할 수 있게 초기화
+            cvPromise = null;
             reject(new Error('OpenCV.js 로딩 실패'));
         };
 
-        document.head.appendChild(script);        // shadow root가 아니라 document에 추가
+        document.body.appendChild(script);
     });
 
     return cvPromise;
-}
+};

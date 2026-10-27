@@ -7,6 +7,7 @@ import "../component/resonatorecho/chancetable/ChanceTable.js";
 import "../page/EchoChoice.js";
 import "../page/PresetSave.js";
 import "../page/ResonatorChoice.js";
+import "./ResonatorEchoDetect.js";
 
 import { getAttributes } from '../api/attributeApi.js';
 import { getPreset, savePreset } from '../api/presetApi.js';
@@ -45,6 +46,7 @@ class ResonatorEcho extends HTMLElement{
         this.addEventListener('choice-resonator', this.#choiceResonator)
         this.addEventListener('choice-echo', this.#choiceEcho)
         this.addEventListener('echoscore-calcBtn-click', this.#calcEchoScore)
+        this.addEventListener('click-echoDetect', this.#showResonatorEchoDetect)
         document.addEventListener('preset-loading', this.#presetLoading)
         this.resonatorId = 1
 
@@ -75,6 +77,9 @@ class ResonatorEcho extends HTMLElement{
             <div>
             <div>
                 <preset-save></preset-save>
+            </div>
+            <div>
+                <resonatorecho-detect></resonatorecho-detect>
             </div>
         `
         const resonatorChoiceBtn = this.querySelector("resonator-choice-btn")
@@ -269,6 +274,11 @@ class ResonatorEcho extends HTMLElement{
         
         const resonatorEchoScore = this.querySelector('resonatorecho-score')
         resonatorEchoScore.score = preset.totalScore
+    }
+
+    #showResonatorEchoDetect = () => {
+        const resoantorEchoDetect = this.querySelector('resonatorecho-detect')
+        resoantorEchoDetect.showDialog()
     }
 
     render(){
